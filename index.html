@@ -496,7 +496,7 @@ select.form-input option{background:var(--surface2)}
 <!-- HISTORY PAGE -->
 <div id="page-history" class="page">
   <div class="section-head" style="margin-bottom:16px">
-    <div><div class="section-title" style="font-size:15px">历史数据库</div><div class="section-sub">全部 168 条视频记录</div></div>
+    <div><div class="section-title" style="font-size:15px">历史数据库</div><div class="section-sub" id="history-count-sub">加载中…</div></div>
     <div class="section-ctrl">
       <select class="ctrl-btn" id="filter-region" onchange="filterHistory()" style="padding:5px 10px">
         <option value="">全部地区</option>
@@ -508,24 +508,25 @@ select.form-input option{background:var(--surface2)}
       </select>
     </div>
   </div>
-  <div class="data-table-wrap">
-    <table class="data-table" id="history-table">
-      <thead>
-        <tr>
-          <th>日期</th>
-          <th>选题</th>
-          <th>地区</th>
-          <th>标题</th>
-          <th>播放量</th>
-          <th>涨粉</th>
-          <th>咨询</th>
-          <th>分享</th>
-          <th>完播率</th>
-          <th>类型</th>
-        </tr>
-      </thead>
-      <tbody id="history-tbody"></tbody>
-    </table>
+  <div style="display:flex;gap:6px;margin-bottom:12px">
+    <button class="ctrl-btn active" onclick="switchHistoryTab('all',this)">全部数据</button>
+    <button class="ctrl-btn" onclick="switchHistoryTab('entries',this)">最新录入记录</button>
+  </div>
+  <div id="history-all-view">
+    <div class="data-table-wrap">
+      <table class="data-table" id="history-table">
+        <thead>
+          <tr>
+            <th>日期</th><th>选题</th><th>地区</th><th>标题</th>
+            <th>播放量</th><th>涨粉</th><th>咨询</th><th>分享</th><th>完播率</th><th>类型</th>
+          </tr>
+        </thead>
+        <tbody id="history-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div id="history-entries-view" style="display:none">
+    <div id="entries-list"></div>
   </div>
 </div>
 
@@ -659,6 +660,71 @@ select.form-input option{background:var(--surface2)}
 </div>
 
 <script>
+
+// ─── SUPABASE CONFIG ─────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://wgcpwktkroifpifzball.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndnY3B3a3Rrcm9pZnBpZnpiYWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0MjcxMzQsImV4cCI6MjA5MzAwMzEzNH0.RGw98M91jWXrvfl-9eWsE3_g8Tsilu2mMwKxjEFtbKQ';
+
+const sb = {
+  headers: {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  },
+  async select(table, params='') {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {headers: this.headers});
+    return r.json();
+  },
+  async insert(table, data) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+      method: 'POST', headers: this.headers, body: JSON.stringify(data)
+    });
+    return r.json();
+  },
+  async count(table) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=count`, {
+      headers: {...this.headers, 'Prefer': 'count=exact'},
+    });
+    return parseInt(r.headers.get('content-range')?.split('/')[1] || '0');
+  }
+};
+
+// ─── DB STATE ────────────────────────────────────────────────────────────────
+let DB_VIDEOS = [];
+let DB_LOADED = false;
+
+async function loadDBVideos() {
+  try {
+    const data = await sb.select('videos', 'order=created_at.desc&limit=500');
+    if (Array.isArray(data)) {
+      DB_VIDEOS = data;
+      DB_LOADED = true;
+      return data;
+    }
+  } catch(e) { console.error('DB load error:', e); }
+  return [];
+}
+
+// ─── SEED HISTORICAL DATA ────────────────────────────────────────────────────
+async function seedIfEmpty() {
+  try {
+    const count = await sb.count('videos');
+    if (count === 0) {
+      const batches = [];
+      for (let i = 0; i < HISTORY.length; i += 10) {
+        batches.push(HISTORY.slice(i, i+10));
+      }
+      for (const batch of batches) {
+        await sb.insert('videos', batch);
+      }
+      console.log('Seeded', HISTORY.length, 'historical records');
+    } else {
+      console.log('DB already has', count, 'records');
+    }
+  } catch(e) { console.error('Seed error:', e); }
+}
+
 // ─── DATA ───────────────────────────────────────────────────────────────────
 const HISTORY = [
   {date:'2026/2/20',topic:'建档',region:'CN',title:'留学生回国第一件事就做错了',play:484533,fans:25,consult:1,shares:17444,finish:34.23,hook:'留学生回国第一件事就做错了',type:'传播'},
@@ -937,6 +1003,8 @@ function filterHistory(){
 }
 function renderHistory(regionFilter){
   const data = regionFilter ? HISTORY.filter(d=>d.region===regionFilter) : HISTORY;
+  const sub = document.getElementById('history-count-sub');
+  if(sub) sub.textContent = `共 ${data.length} 条记录 · 实时同步自数据库`;
   const tbody = document.getElementById('history-tbody');
   if(!tbody)return;
   tbody.innerHTML = data.map(d=>{
@@ -967,32 +1035,69 @@ function checkViralEntry(){
   const v = parseInt(document.getElementById('e-shares').value)||0;
   document.getElementById('e-viral-hint').style.display = v>=1000?'block':'none';
 }
-function submitEntry(){
+async function submitEntry(){
   const req = ['e-title','e-account','e-comments','e-shares'];
   let ok = true;
   req.forEach(id=>{
     const el=document.getElementById(id);
-    if(!el.value.trim()){el.classList.add('error');ok=false;}
+    if(!el||!el.value.trim()){if(el)el.classList.add('error');ok=false;}
     else el.classList.remove('error');
   });
-  if(!document.getElementById('e-collector').value){
-    document.getElementById('e-collector').classList.add('error');ok=false;
+  const collectorEl = document.getElementById('e-collector');
+  if(!collectorEl||!collectorEl.value){if(collectorEl)collectorEl.classList.add('error');ok=false;}
+  if(!ok){return;}
+
+  const btn = document.querySelector('.btn-submit.primary');
+  const origText = btn ? btn.textContent : '';
+  if(btn) { btn.textContent = '保存中…'; btn.disabled = true; }
+
+  const record = {
+    date: document.getElementById('e-date')?.value || new Date().toLocaleDateString('zh-CN'),
+    topic: document.getElementById('e-direction')?.value || '',
+    region: document.getElementById('e-region')?.value || 'CN',
+    title: document.getElementById('e-title')?.value || '',
+    account: document.getElementById('e-account')?.value || '',
+    play: parseInt(document.getElementById('e-play')?.value)||0,
+    fans: 0,
+    consult: 0,
+    shares: parseInt(document.getElementById('e-shares')?.value)||0,
+    likes: parseInt(document.getElementById('e-likes')?.value)||0,
+    comments: parseInt(document.getElementById('e-comments')?.value)||0,
+    finish_rate: document.getElementById('e-finish')?.value || '',
+    duration: document.getElementById('e-duration')?.value || '',
+    hook: document.getElementById('e-hook')?.value || '',
+    cta: document.getElementById('e-cta')?.value || '',
+    content_type: (parseInt(document.getElementById('e-shares')?.value)||0) >= 1000 ? '传播' : '引流',
+    collector: document.getElementById('e-collector')?.value || '',
+    notes: document.getElementById('e-notes')?.value || ''
+  };
+
+  try {
+    const result = await sb.insert('videos', record);
+    if(result && !result.error) {
+      DB_VIDEOS.unshift({...record, id: Date.now(), created_at: new Date().toISOString()});
+      ['e-title','e-account','e-comments','e-likes','e-shares','e-duration','e-play','e-finish','e-hook','e-cta','e-notes'].forEach(id=>{
+        const el=document.getElementById(id);if(el)el.value='';
+      });
+      if(document.getElementById('e-collector')) document.getElementById('e-collector').value='';
+      if(document.getElementById('e-direction')) document.getElementById('e-direction').value='';
+      if(document.getElementById('e-viral-hint')) document.getElementById('e-viral-hint').style.display='none';
+      const msg=document.getElementById('e-success');
+      if(msg){msg.style.display='block'; setTimeout(()=>msg.style.display='none',4000);}
+      initEntry();
+      renderDashboard();
+    } else {
+      alert('保存失败，请检查网络后重试\n' + JSON.stringify(result?.error || result));
+    }
+  } catch(e) {
+    alert('保存出错：' + e.message);
+  } finally {
+    if(btn) { btn.textContent = origText; btn.disabled = false; }
   }
-  if(!ok) return;
-  // Clear form
-  ['e-title','e-account','e-comments','e-likes','e-shares','e-duration','e-play','e-finish','e-hook','e-cta','e-notes'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.value='';
-  });
-  document.getElementById('e-collector').value='';
-  document.getElementById('e-direction').value='';
-  document.getElementById('e-viral-hint').style.display='none';
-  const msg=document.getElementById('e-success');
-  msg.style.display='block';
-  setTimeout(()=>msg.style.display='none',3000);
-  initEntry();
 }
-function submitAndView(){
-  submitEntry();
+
+async function submitAndView(){
+  await submitEntry();
   showPage('dashboard');
 }
 
@@ -1441,11 +1546,107 @@ function renderIdeaContentFromList(dirs, idx) {
   `;
 }
 
+
+// ─── HISTORY TABS ────────────────────────────────────────────────────────────
+function switchHistoryTab(tab, btn) {
+  document.querySelectorAll('#page-history .ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('history-all-view').style.display = tab==='all' ? 'block' : 'none';
+  document.getElementById('history-entries-view').style.display = tab==='entries' ? 'block' : 'none';
+  if(tab==='entries') renderEntries();
+}
+
+async function renderEntries() {
+  const el = document.getElementById('entries-list');
+  if(!el) return;
+  el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">加载录入记录中…</div>';
+  try {
+    const data = await sb.select('videos', 'order=created_at.desc&limit=100');
+    if(!Array.isArray(data) || data.length === 0) {
+      el.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text3);font-size:12px">暂无录入记录<br>在录入页面填写数据后会显示在这里</div>';
+      return;
+    }
+    el.innerHTML = data.map(d => {
+      const dt = new Date(d.created_at);
+      const timeStr = dt.toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+      const isViral = (d.shares||0) >= 1000;
+      return `<div style="display:flex;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:6px;align-items:flex-start">
+        <div style="flex-shrink:0;text-align:center;min-width:52px">
+          <div style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace">${timeStr}</div>
+          <div style="font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(124,58,237,.1);color:var(--accent);margin-top:3px;font-weight:500">${d.collector||'未知'}</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.title||'—'}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="font-size:10px;color:var(--text3)">${d.account||''}</span>
+            ${d.region ? `<span style="font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(124,58,237,.1);color:var(--accent)">${d.region}</span>` : ''}
+            ${d.topic ? `<span style="font-size:10px;color:var(--text3)">${d.topic}</span>` : ''}
+          </div>
+        </div>
+        <div style="flex-shrink:0;text-align:right">
+          ${isViral ? `<div style="font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(245,200,66,.15);color:#92400e;font-weight:600;margin-bottom:3px">⚡ 爆款</div>` : ''}
+          <div style="font-size:11px;color:var(--text2)">转发 <strong style="color:var(--text)">${(d.shares||0).toLocaleString()}</strong></div>
+          <div style="font-size:10px;color:var(--text3)">评论 ${d.comments||0}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">加载失败，请刷新重试</div>';
+  }
+}
+
 // ─── INIT ────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
+async function initApp() {
+  // Show loading state
+  const weekLabel = document.getElementById('current-week-label');
+  if(weekLabel) weekLabel.textContent = new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long'});
+
+  // Update sync pill
+  const pill = document.querySelector('.sync-pill');
+  if(pill) pill.innerHTML = '<div class="pulse"></div>连接数据库中…';
+
+  // Load from Supabase then seed if empty
+  await loadDBVideos();
+  await seedIfEmpty();
+
+  // If DB loaded successfully, merge with local HISTORY for display
+  if(DB_LOADED && DB_VIDEOS.length > 0) {
+    // Convert DB records to HISTORY format for rendering
+    const dbFormatted = DB_VIDEOS.map(d => ({
+      date: d.date || '',
+      topic: d.topic || '',
+      region: d.region || 'CN',
+      title: d.title || '',
+      play: d.play || 0,
+      fans: d.fans || 0,
+      consult: d.consult || 0,
+      shares: d.shares || 0,
+      finish: parseFloat(d.finish_rate) || 0,
+      hook: d.hook || '',
+      type: d.content_type || '传播',
+      collector: d.collector || '',
+      account: d.account || ''
+    }));
+    // Merge: DB records + any HISTORY items not in DB
+    const dbTitles = new Set(DB_VIDEOS.map(d => d.title));
+    const localOnly = HISTORY.filter(h => !dbTitles.has(h.title));
+    HISTORY.length = 0;
+    dbFormatted.forEach(d => HISTORY.push(d));
+    localOnly.forEach(d => HISTORY.push(d));
+    if(pill) pill.innerHTML = '<div class="pulse"></div>已同步 · ' + HISTORY.length + '条数据';
+  } else {
+    if(pill) pill.innerHTML = '<div class="pulse"></div>本地数据 · ' + HISTORY.length + '条';
+  }
+
+  // Update total count display
+  const totalEl = document.getElementById('total-videos');
+  if(totalEl) totalEl.textContent = HISTORY.length;
+
   renderDashboard();
-  document.getElementById('current-week-label').textContent = new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long'});
-});
+  initEntry();
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
 </script>
 
 <!-- IDEAS PAGE -->
