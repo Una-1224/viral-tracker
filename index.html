@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爆款雷达 · Jeff留学生求职咨询</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* LIGHT THEME */
+:root {
+  --bg: #faf8ff;
+  --surface: #ffffff;
+  --surface2: #f3f0ff;
+  --surface3: #ebe6ff;
+  --border: rgba(110,80,200,0.10);
+  --border2: rgba(110,80,200,0.20);
+  --text: #1e1535;
+  --text2: #6b5fa0;
+  --text3: #b0a8cc;
+  --accent: #7c3aed;
+  --accent2: #a855f7;
+  --accent3: #f5c842;
+  --accent4: #e879f9;
+  --gold: #f5c842;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(124,58,237,.2);border-radius:2px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,248,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(110,80,200,0.08);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--accent3);box-shadow:0 0 10px rgba(245,200,66,0.6)}
+.nav-title{font-size:14px;font-weight:600;letter-spacing:-.3px}
+.nav-sub{font-size:11px;color:var(--text3);margin-left:4px}
+.nav-tabs{display:flex;gap:2px}
+.nav-tab{padding:6px 14px;border-radius:6px;font-size:12px;color:var(--text2);cursor:pointer;border:none;background:transparent;font-family:inherit;transition:.15s}
+.nav-tab:hover{color:var(--text);background:var(--surface2)}
+.nav-tab.active{color:#fff;background:var(--accent);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:10px}
+.sync-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid var(--border2);font-size:11px;color:var(--text2)}
+.pulse{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.btn-entry{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:var(--accent);color:#fff;font-family:inherit;transition:.15s}
+.btn-entry:hover{background:#6d28d9}
+
+/* PAGES */
+.page{display:none;padding:24px 32px 48px;animation:fadeIn .2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{display:flex;align-items:flex-end;justify-content:space-between;padding:20px 0 28px;border-bottom:1px solid var(--border)}
+.hero-week{font-size:11px;color:var(--accent);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.hero-week::before{content:'';width:16px;height:1px;background:var(--accent)}
+.hero-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;letter-spacing:-.5px;line-height:1.2}
+.hero-title em{font-style:normal;color:var(--accent)}
+.hero-stats{display:flex;gap:28px}
+.hero-stat{text-align:right}
+.hero-stat-num{font-family:'DM Mono',monospace;font-size:26px;font-weight:500;line-height:1}
+.hero-stat-num.g{color:var(--accent)}
+.hero-stat-num.b{color:var(--accent2)}
+.hero-stat-num.o{color:var(--accent3)}
+.hero-stat-label{font-size:10px;color:var(--text3);margin-top:4px;letter-spacing:.3px}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:20px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:.2s;cursor:default}
+.kpi:hover{border-color:var(--border2);transform:translateY(-2px)}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kpi-icon{font-size:15px}
+.kpi-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600}
+.kpi-badge.up{background:rgba(124,58,237,.1);color:var(--accent)}
+.kpi-badge.dn{background:rgba(239,68,68,.1);color:#dc2626}
+.kpi-badge.nt{background:rgba(110,80,200,.08);color:var(--text2)}
+.kpi-num{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;line-height:1;margin-bottom:4px}
+.kpi-num.y{color:var(--accent)}
+.kpi-num.b{color:var(--accent2)}
+.kpi-num.o{color:var(--accent3)}
+.kpi-num.p{color:var(--accent4)}
+.kpi-label{font-size:11px;color:var(--text2)}
+
+/* SECTION */
+.section{margin:20px 0}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:3px;height:14px;background:var(--accent3);border-radius:2px}
+.section-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.section-ctrl{display:flex;gap:4px}
+.ctrl-btn{padding:4px 10px;border-radius:5px;font-size:11px;color:var(--text2);cursor:pointer;border:1px solid var(--border);background:transparent;font-family:inherit;transition:.12s}
+.ctrl-btn:hover,.ctrl-btn.active{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+
+/* TOP LIST */
+.top-list{display:flex;flex-direction:column;gap:6px}
+.top-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);transition:.15s;cursor:default}
+.top-item:hover{border-color:var(--border2);background:var(--surface2)}
+.top-rank{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;width:24px;flex-shrink:0;color:var(--text3)}
+.top-rank.r1{color:var(--gold)}
+.top-rank.r2{color:var(--text2)}
+.top-rank.r3{color:#cd7f32}
+.top-info{flex:1;min-width:0}
+.top-title{font-size:12px;color:var(--text);line-height:1.4;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:500}
+.tag-cn{background:rgba(124,58,237,.12);color:#7c3aed}
+.tag-us{background:rgba(168,85,247,.12);color:#9333ea}
+.tag-hk{background:rgba(245,200,66,.2);color:#b45309}
+.tag-uk{background:rgba(245,200,66,.15);color:#92400e}
+.tag-gl{background:rgba(124,58,237,.08);color:#6d28d9}
+.tag-viral{background:rgba(245,200,66,.15);color:#b45309;border:1px solid rgba(245,200,66,.3)}
+.top-account{font-size:10px;color:var(--text3)}
+.top-nums{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.top-main-num{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:var(--accent3)}
+.top-main-label{font-size:9px;color:var(--text3);letter-spacing:.3px}
+.top-side-num{font-size:10px;color:var(--text2)}
+.top-badge-viral{font-size:9px;padding:1px 6px;border-radius:3px;background:rgba(200,240,96,.15);color:var(--accent);border:1px solid rgba(200,240,96,.25)}
+
+/* TYPE BADGE */
+.type-传播{background:rgba(124,58,237,.1);color:#7c3aed;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:500}
+.type-引流{background:rgba(245,200,66,.2);color:#92400e;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:500}
+.type-双高{background:rgba(124,58,237,.15);color:var(--accent);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:500}
+
+/* DIRECTION CHART */
+.dir-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dir-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.dir-name{font-size:12px;font-weight:600;margin-bottom:2px}
+.dir-stats{display:flex;gap:12px;margin-bottom:8px;margin-top:4px}
+.dir-stat{font-size:10px;color:var(--text2)}
+.dir-stat strong{color:var(--text);font-weight:500}
+.bar-wrap{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+
+/* FORMULA CARDS */
+.formula-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.formula-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;transition:.15s}
+.formula-card:hover{border-color:var(--border2)}
+.formula-num{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.formula-name{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text)}
+.formula-code{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);background:rgba(124,58,237,.06);border-left:2px solid var(--accent);padding:6px 10px;border-radius:0 6px 6px 0;margin-bottom:8px;line-height:1.6}
+.formula-eg{font-size:10px;color:var(--text2);line-height:1.6;border-top:1px solid var(--border);padding-top:8px;margin-top:4px}
+.formula-eg strong{color:var(--text);font-weight:500}
+.formula-avg{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text3);margin-top:6px}
+.formula-avg strong{color:#b45309;font-weight:600}
+
+/* INSIGHT PANEL */
+.insight-panel{background:linear-gradient(135deg,#faf8ff 0%,#f3f0ff 100%);border:1px solid rgba(124,58,237,.15);border-radius:var(--radius-lg);padding:18px;margin-bottom:16px}
+.insight-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.insight-orb{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.insight-title{font-size:13px;font-weight:600}
+.insight-time{font-size:10px;color:var(--text3);margin-left:auto}
+.insight-text{font-size:12px;color:var(--text2);line-height:1.9;margin-bottom:12px}
+.insight-text strong{color:var(--text);font-weight:600}
+.insight-tags{display:flex;gap:6px;flex-wrap:wrap}
+.insight-tag{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
+
+/* HIGHLIGHTS */
+.highlights{display:flex;flex-direction:column;gap:6px}
+.hl{display:flex;gap:10px;padding:10px 12px;background:#f3f0ff;border-radius:8px;border:1px solid rgba(124,58,237,.12)}
+.hl-icon{font-size:12px;flex-shrink:0;margin-top:1px}
+.hl-text{font-size:11px;color:var(--text2);line-height:1.6}
+.hl-text strong{color:var(--text);font-weight:500}
+
+/* SCHEDULE */
+.schedule-list{display:flex;flex-direction:column;gap:8px}
+.sched{display:flex;gap:14px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);align-items:flex-start;transition:.15s}
+.sched:hover{border-color:var(--border2)}
+.sched.urgent{border-left:2px solid #ef4444}
+.sched.high{border-left:2px solid var(--accent3)}
+.sched.mid{border-left:2px solid var(--accent2)}
+.sched-date{font-size:12px;font-weight:600;color:var(--text2);width:32px;flex-shrink:0;padding-top:2px;font-family:'DM Mono',monospace}
+.sched-info{flex:1}
+.sched-title{font-size:12px;color:var(--text);margin-bottom:4px;font-weight:500}
+.sched-tags{display:flex;gap:6px;flex-wrap:wrap}
+.sched-tag{padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600}
+.sched-tag.r{background:rgba(239,68,68,.12);color:#ef4444}
+.sched-tag.o{background:rgba(255,107,74,.12);color:var(--accent3)}
+.sched-tag.b{background:rgba(61,139,255,.12);color:#6baeff}
+.sched-tag.g{background:rgba(245,200,66,.15);color:#92400e}
+.sched-person{font-size:11px;color:var(--text3);flex-shrink:0;padding-top:2px}
+
+/* COMPETITOR TABLE */
+.comp-list{display:flex;flex-direction:column;gap:6px}
+.comp-item{display:flex;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+.comp-rank{font-family:'DM Mono',monospace;font-size:13px;color:var(--text3);width:20px;flex-shrink:0;padding-top:1px}
+.comp-info{flex:1}
+.comp-name{font-size:12px;font-weight:600;margin-bottom:3px}
+.comp-meta{font-size:10px;color:var(--text2);line-height:1.6}
+.comp-meta strong{color:var(--text);font-weight:500}
+.comp-diff{font-size:10px;color:var(--accent3);margin-top:4px;padding:4px 8px;background:rgba(255,107,74,.06);border-radius:4px;border-left:2px solid var(--accent3)}
+
+/* PAIN POINTS */
+.pain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.pain-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;transition:.15s}
+.pain-item:hover{border-color:var(--border2)}
+.pain-rank{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:6px}
+.pain-topic{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px}
+.pain-quote{font-size:10px;color:var(--text2);line-height:1.6;font-style:italic;border-left:2px solid var(--surface3);padding-left:8px;margin-bottom:6px}
+.pain-opp{font-size:10px;color:var(--accent);background:rgba(124,58,237,.08);padding:4px 8px;border-radius:4px}
+
+/* ENTRY PAGE */
+.entry-wrap{max-width:640px;margin:0 auto;padding:8px 0}
+.entry-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:14px}
+.entry-section-title{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.entry-section-title::before{content:'';width:3px;height:12px;background:var(--accent3);border-radius:1px}
+.form-row{display:grid;gap:10px;margin-bottom:10px}
+.form-row.cols2{grid-template-columns:1fr 1fr}
+.form-row.cols4{grid-template-columns:1fr 1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:11px;color:var(--text2);display:flex;align-items:center;gap:4px}
+.req{color:var(--accent3)}
+.form-input{background:#faf8ff;border:1px solid rgba(124,58,237,.2);border-radius:7px;padding:8px 11px;font-size:12px;color:var(--text);font-family:inherit;transition:.15s;outline:none;width:100%}
+.form-input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(124,58,237,.08)}
+.form-input::placeholder{color:var(--text3)}
+.form-input.error{border-color:var(--accent3)}
+select.form-input option{background:var(--surface2)}
+.num-input{text-align:center}
+.viral-hint{display:none;margin-top:6px;padding:6px 10px;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.3);border-radius:6px;font-size:11px;color:#92400e;font-weight:500}
+.form-submit-row{display:flex;gap:8px;margin-top:4px}
+.btn-submit{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:#f3f0ff;color:var(--text);font-family:inherit;transition:.15s}
+.btn-submit:hover{background:var(--surface3);border-color:var(--accent)}
+.btn-submit.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-submit.primary:hover{background:#6d28d9}
+.success-msg{display:none;margin-top:10px;padding:8px 12px;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:7px;font-size:12px;color:var(--accent)}
+
+/* DATA TABLE */
+.data-table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+.data-table{width:100%;border-collapse:collapse;font-size:11px}
+.data-table th{padding:10px 12px;text-align:left;color:var(--text2);font-weight:600;border-bottom:1px solid var(--border);background:#f3f0ff;white-space:nowrap}
+.data-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--surface2)}
+.data-table .mono{font-family:'DM Mono',monospace;font-size:11px}
+.data-table .viral-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);display:inline-block;margin-right:4px;box-shadow:0 0 6px rgba(245,200,66,0.5)}
+
+/* STAT COMPARISON */
+.stat-comp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.stat-comp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.stat-comp-title{font-size:11px;color:var(--text3);margin-bottom:10px;font-weight:500}
+.stat-comp-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.stat-comp-label{font-size:11px;color:var(--text2)}
+.stat-comp-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);font-weight:500}
+.stat-comp-bar{height:3px;background:var(--surface3);border-radius:2px;margin-top:3px;overflow:hidden}
+.stat-comp-fill{height:100%;border-radius:2px}
+
+/* TABS inside pages */
+.inner-tabs{display:flex;gap:4px;margin-bottom:16px}
+.inner-tab{padding:5px 12px;border-radius:6px;font-size:11px;color:var(--text2);cursor:pointer;border:1px solid transparent;background:transparent;font-family:inherit;transition:.12s}
+.inner-tab:hover{color:var(--text);background:var(--surface2)}
+.inner-tab.active{color:var(--text);background:var(--surface2);border-color:var(--border2)}
+
+/* EMPTY STATE */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;color:var(--text3);font-size:12px;gap:8px}
+.empty-icon{font-size:28px;opacity:.3}
+
+/* 2 col layout */
+.two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* History data summary */
+.hist-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.hist-card-title{font-size:11px;color:var(--text3);margin-bottom:8px;font-weight:500;letter-spacing:.3px}
+.hist-num{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:var(--text);line-height:1}
+.hist-sub{font-size:10px;color:var(--text3);margin-top:3px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-dot"></div>
+    <div>
+      <span class="nav-title">爆款雷达</span>
+      <span class="nav-sub">Jeff留学生求职咨询</span>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('dashboard')">总览</button>
+    <button class="nav-tab" onclick="showPage('toplist')">TOP榜</button>
+    <button class="nav-tab" onclick="showPage('analysis')">方向分析</button>
+    <button class="nav-tab" onclick="showPage('formulas')">公式库</button>
+    <button class="nav-tab" onclick="showPage('schedule')">排期</button>
+    <button class="nav-tab" onclick="showPage('history')">历史数据</button>
+    <button class="nav-tab" onclick="showPage('ideas')">选题灵感</button>
+  </div>
+  <div class="nav-right">
+    <div class="sync-pill"><div class="pulse"></div>数据已同步</div>
+    <button class="btn-entry" onclick="showPage('entry')">+ 录入</button>
+  </div>
+</nav>
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page active">
+  <div class="hero">
+    <div>
+      <div class="hero-week">📅 <span id="current-week-label">数据统计</span></div>
+      <div class="hero-title">共 <em id="total-videos">168</em> 条历史数据·累积追踪</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:6px">覆盖 1月—4月 · CN/US/HK/UK 四大市场</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num g">484,533</div>
+        <div class="hero-stat-label">历史最高播放</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num b">209</div>
+        <div class="hero-stat-label">总涨粉/周峰值</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num o">40</div>
+        <div class="hero-stat-label">单周最高咨询</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-top"><span class="kpi-icon">📹</span><span class="kpi-badge nt">全周期</span></div>
+      <div class="kpi-num y">168</div>
+      <div class="kpi-label">累积采集视频</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-top"><span class="kpi-icon">🔥</span><span class="kpi-badge up">爆款</span></div>
+      <div class="kpi-num b">38</div>
+      <div class="kpi-label">播放量≥50万级内容</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-top"><span class="kpi-icon">💬</span><span class="kpi-badge up">↑ 引流</span></div>
+      <div class="kpi-num o">25</div>
+      <div class="kpi-label">最高单条咨询转化</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-top"><span class="kpi-icon">✨</span><span class="kpi-badge nt">双高</span></div>
+      <div class="kpi-num p">12</div>
+      <div class="kpi-label">涨粉+咨询双高内容</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <!-- AI INSIGHT -->
+      <div class="insight-panel">
+        <div class="insight-head">
+          <div class="insight-orb">✦</div>
+          <div>
+            <div class="insight-title">运营核心洞察</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:1px">基于168条历史数据分析</div>
+          </div>
+          <div class="insight-time">每次更新数据后刷新</div>
+        </div>
+        <div class="insight-text">
+          你们账号有三种内容类型，底层逻辑完全不同：<strong>传播型</strong>（建档48万播）靠信息差驱动，<strong>引流型</strong>（在华欧企25咨询）靠痛点驱动，<strong>双高型</strong>（英国商会70涨粉30咨询）是最稀缺的。<br><br>
+          目前最大的机会缺口：<strong>英/澳方向严重供给不足</strong>——LSE家长系列单条30+咨询，是全账号咨询效率最高的内容，但此方向内容占比不到10%。<strong>建议下周重点补齐英澳向内容</strong>。<br><br>
+          已验证的最强标题公式：带"凌晨官宣""忽然""刚刚"的内容，播放量比同类题材高35%。"X%的留学生不知道"系列转发持续稳定。
+        </div>
+        <div class="highlights">
+          <div class="hl"><div class="hl-icon">🎯</div><div class="hl-text"><strong>最高ROI方向：</strong>英国商会 · 30咨询/7万播，是全账号咨询转化率第一</div></div>
+          <div class="hl"><div class="hl-icon">⚡</div><div class="hl-text"><strong>待补缺口：</strong>英澳方向内容不足，UK市场咨询转化远高于CN市场</div></div>
+          <div class="hl"><div class="hl-icon">📌</div><div class="hl-text"><strong>本周可立刻用的选题：</strong>建档系列（需求持续旺盛）、在华欧企系列（转化稳定）</div></div>
+        </div>
+        <div class="insight-tags" style="margin-top:12px">
+          <span class="insight-tag">英澳补仓优先</span>
+          <span class="insight-tag">建档系列持续</span>
+          <span class="insight-tag">凌晨官宣公式</span>
+          <span class="insight-tag">✦ AI分析</span>
+        </div>
+      </div>
+
+      <!-- QUICK TOP5 -->
+      <div class="section">
+        <div class="section-head">
+          <div><div class="section-title">本账号历史咨询TOP内容</div><div class="section-sub">按咨询数排序</div></div>
+        </div>
+        <div class="top-list" id="dashboard-top5"></div>
+      </div>
+    </div>
+
+    <div>
+      <!-- DIRECTION QUICK -->
+      <div class="section">
+        <div class="section-head">
+          <div><div class="section-title">内容方向效能对比</div><div class="section-sub">涨粉+咨询综合加权</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px" id="dir-quick"></div>
+      </div>
+
+      <!-- TYPE DIST -->
+      <div class="section">
+        <div class="section-head">
+          <div><div class="section-title">内容功能分布</div><div class="section-sub">传播型 vs 引流型 vs 双高型</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+            <div><span class="type-双高">双高型</span><div style="font-size:10px;color:var(--text3);margin-top:3px">涨粉+咨询同时高</div></div>
+            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent)">12条</div><div style="font-size:10px;color:var(--text3)">最值得复刻</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+            <div><span class="type-引流">引流型</span><div style="font-size:10px;color:var(--text3);margin-top:3px">咨询转化率高</div></div>
+            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent3)">34条</div><div style="font-size:10px;color:var(--text3)">核心商业价值</div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+            <div><span class="type-传播">传播型</span><div style="font-size:10px;color:var(--text3);margin-top:3px">播放/转发量高</div></div>
+            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent2)">58条</div><div style="font-size:10px;color:var(--text3)">涨粉破圈工具</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOP LIST PAGE -->
+<div id="page-toplist" class="page">
+  <div class="section-head" style="margin-bottom:16px">
+    <div><div class="section-title" style="font-size:15px">转发 & 咨询 TOP榜</div><div class="section-sub">你们账号历史最优内容</div></div>
+    <div class="section-ctrl">
+      <button class="ctrl-btn active" onclick="switchTopSort('consult',this)">按咨询量</button>
+      <button class="ctrl-btn" onclick="switchTopSort('share',this)">按转发量</button>
+      <button class="ctrl-btn" onclick="switchTopSort('play',this)">按播放量</button>
+    </div>
+  </div>
+  <div class="top-list" id="full-toplist"></div>
+</div>
+
+<!-- ANALYSIS PAGE -->
+<div id="page-analysis" class="page">
+  <div class="section-head" style="margin-bottom:16px">
+    <div><div class="section-title" style="font-size:15px">内容方向深度分析</div></div>
+  </div>
+  <div class="dir-grid" id="dir-analysis"></div>
+
+  <div class="section" style="margin-top:20px">
+    <div class="section-head"><div><div class="section-title">传播型 vs 引流型 对比</div><div class="section-sub">转发高≠咨询高，要分开管理</div></div></div>
+    <div class="stat-comp">
+      <div class="stat-comp-card">
+        <div class="stat-comp-title">传播效率最高内容（播放量）</div>
+        <div id="play-top3"></div>
+      </div>
+      <div class="stat-comp-card">
+        <div class="stat-comp-title">引流效率最高内容（咨询量）</div>
+        <div id="consult-top3"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div><div class="section-title">评论痛点热词</div><div class="section-sub">高评论内容反映的家长核心焦虑</div></div></div>
+    <div class="pain-grid" id="pain-grid"></div>
+  </div>
+</div>
+
+<!-- FORMULAS PAGE -->
+<div id="page-formulas" class="page">
+  <div class="section-head" style="margin-bottom:16px">
+    <div><div class="section-title" style="font-size:15px">爆款公式库</div><div class="section-sub">从168条历史数据中提炼，持续累积</div></div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div class="section-head"><div><div class="section-title">标题公式</div></div></div>
+    <div class="formula-grid" id="title-formulas"></div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div class="section-head"><div><div class="section-title">开头黄金三秒公式</div></div></div>
+    <div class="formula-grid" id="hook-formulas"></div>
+  </div>
+
+  <div>
+    <div class="section-head"><div><div class="section-title">引流CTA公式</div></div></div>
+    <div class="formula-grid" id="cta-formulas"></div>
+  </div>
+</div>
+
+<!-- SCHEDULE PAGE -->
+<div id="page-schedule" class="page">
+  <div class="section-head" style="margin-bottom:16px">
+    <div><div class="section-title" style="font-size:15px">下周出稿排期建议</div><div class="section-sub">基于历史爆款规律 + 评论痛点 + 时效信源自动生成</div></div>
+  </div>
+
+  <div class="insight-panel" style="margin-bottom:16px">
+    <div class="insight-head">
+      <div class="insight-orb">📋</div>
+      <div><div class="insight-title">本周排期逻辑</div></div>
+    </div>
+    <div class="insight-text">
+      基于你们账号历史数据，<strong>英澳方向补仓为最高优先级</strong>（LSE系列咨询转化率第一）。建档系列需求持续旺盛，每周保留1条。在华欧企系列是稳定引流工具，每月2条。凌晨官宣+权威机构的标题公式命中率最高，优先用于时效性内容。
+    </div>
+  </div>
+
+  <div class="schedule-list" id="schedule-list"></div>
+</div>
+
+<!-- HISTORY PAGE -->
+<div id="page-history" class="page">
+  <div class="section-head" style="margin-bottom:16px">
+    <div><div class="section-title" style="font-size:15px">历史数据库</div><div class="section-sub">全部 168 条视频记录</div></div>
+    <div class="section-ctrl">
+      <select class="ctrl-btn" id="filter-region" onchange="filterHistory()" style="padding:5px 10px">
+        <option value="">全部地区</option>
+        <option value="CN">国内</option>
+        <option value="US">美国</option>
+        <option value="HK">香港</option>
+        <option value="UK">英国</option>
+        <option value="GL">全球</option>
+      </select>
+    </div>
+  </div>
+  <div class="data-table-wrap">
+    <table class="data-table" id="history-table">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>选题</th>
+          <th>地区</th>
+          <th>标题</th>
+          <th>播放量</th>
+          <th>涨粉</th>
+          <th>咨询</th>
+          <th>分享</th>
+          <th>完播率</th>
+          <th>类型</th>
+        </tr>
+      </thead>
+      <tbody id="history-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ENTRY PAGE -->
+<div id="page-entry" class="page">
+  <div style="max-width:640px;margin:0 auto">
+    <div style="margin-bottom:20px">
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px">录入今日采集数据</div>
+      <div style="font-size:12px;color:var(--text3)">填写完毕后点击提交，数据将自动加入分析</div>
+    </div>
+
+    <div class="entry-section">
+      <div class="entry-section-title">基本信息</div>
+      <div class="form-row cols2">
+        <div class="form-group">
+          <label class="form-label">采集日期 <span class="req">*</span></label>
+          <input type="date" id="e-date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">采集人 <span class="req">*</span></label>
+          <select id="e-collector" class="form-input">
+            <option value="">选择采集人</option>
+            <option>Una</option><option>Swennie</option><option>Yulia</option>
+            <option>Linnea</option><option>Sylvia</option><option>Eunice</option>
+            <option>Ada</option><option>Kayla</option><option>Jaden</option>
+            <option>Eon</option><option>Anya</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">视频标题 <span class="req">*</span></label>
+          <input type="text" id="e-title" class="form-input" placeholder="粘贴完整视频标题">
+        </div>
+      </div>
+      <div class="form-row cols2">
+        <div class="form-group">
+          <label class="form-label">账号名称 <span class="req">*</span></label>
+          <input type="text" id="e-account" class="form-input" placeholder="如：钟老师说留学">
+        </div>
+        <div class="form-group">
+          <label class="form-label">地区</label>
+          <select id="e-region" class="form-input">
+            <option value="CN">国内 CN</option>
+            <option value="US">美国 US</option>
+            <option value="HK">香港 HK</option>
+            <option value="UK">英国 UK</option>
+            <option value="GL">全球 GL</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">内容方向</label>
+          <select id="e-direction" class="form-input">
+            <option value="">选择方向</option>
+            <option>上海人才引进</option><option>建档/学历认证</option>
+            <option>校招时间误区</option><option>央企出海</option>
+            <option>深圳人才引进</option><option>大厂校招</option>
+            <option>金融机构</option><option>在华欧企</option>
+            <option>AI时代职场</option><option>家长故事</option>
+            <option>求职平台</option><option>香港招聘</option>
+            <option>北美校招</option><option>国际组织</option>
+            <option>大使馆</option><option>招聘会</option><option>其他</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry-section">
+      <div class="entry-section-title">数据指标</div>
+      <div class="form-row cols4">
+        <div class="form-group">
+          <label class="form-label">评论 <span class="req">*</span></label>
+          <input type="number" id="e-comments" class="form-input num-input" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">点赞</label>
+          <input type="number" id="e-likes" class="form-input num-input" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">转发 <span class="req">*</span></label>
+          <input type="number" id="e-shares" class="form-input num-input" placeholder="0" oninput="checkViralEntry()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">时长(秒)</label>
+          <input type="number" id="e-duration" class="form-input num-input" placeholder="0">
+        </div>
+      </div>
+      <div class="form-row cols2">
+        <div class="form-group">
+          <label class="form-label">播放量</label>
+          <input type="number" id="e-play" class="form-input" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">完播率</label>
+          <input type="text" id="e-finish" class="form-input" placeholder="如：25.5%">
+        </div>
+      </div>
+      <div id="e-viral-hint" class="viral-hint">🔥 转发 ≥ 1000，已标记为爆款候选</div>
+    </div>
+
+    <div class="entry-section">
+      <div class="entry-section-title">内容分析</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">开头钩子（前3秒口播/大标题）</label>
+          <input type="text" id="e-hook" class="form-input" placeholder="如：上海这次是真的拼了，刚刚官宣…">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">引流CTA（结尾暗号/话术）</label>
+          <input type="text" id="e-cta" class="form-input" placeholder="如：评论区敲【沪】我直接发您">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">可复用点（选填）</label>
+          <textarea id="e-notes" class="form-input" rows="2" style="resize:vertical" placeholder="记录内容结构亮点、选题角度或创作心得…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-submit-row">
+      <button class="btn-submit" onclick="submitEntry()">提交并继续录入</button>
+      <button class="btn-submit primary" onclick="submitAndView()">提交并查看数据</button>
+    </div>
+    <div id="e-success" class="success-msg">✓ 已保存！表单已清空，可继续录入下一条。</div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const HISTORY = [
+  {date:'2026/2/20',topic:'建档',region:'CN',title:'留学生回国第一件事就做错了',play:484533,fans:25,consult:1,shares:17444,finish:34.23,hook:'留学生回国第一件事就做错了',type:'传播'},
+  {date:'2026/3/7',topic:'字节',region:'CN',title:'字节凌晨通知：全球涨薪，缺留学生',play:211898,fans:90,consult:40,shares:5675,finish:24.47,hook:'字节凌晨通知',type:'双高'},
+  {date:'2026/3/6',topic:'美国普通话',region:'US',title:'美国放出大量500强普通话岗，摆明就是给中国留学生准备的',play:197849,fans:20,consult:4,shares:3120,finish:34.06,hook:'摆明就是给中国留学生准备的',type:'传播'},
+  {date:'2026/4/20',topic:'央国企海外',region:'US',title:'国资委刚成立的这个新机构，和留学生的关系太大了',play:169485,fans:20,consult:10,shares:5419,finish:37.59,hook:'国资委刚成立的这个新机构',type:'双高'},
+  {date:'2026/1/16',topic:'四川人才引进',region:'CN',title:'春节前大消息！四川官宣2026留学生人才引进计划',play:167286,fans:32,consult:7,shares:296,finish:25.55,hook:'春节前大消息！四川官宣',type:'传播'},
+  {date:'2026/2/26',topic:'字节',region:'US',title:'张一鸣凌晨官宣：缺留学生',play:188417,fans:90,consult:30,shares:5801,finish:23.97,hook:'张一鸣凌晨官宣',type:'双高'},
+  {date:'2026/2/27',topic:'国家电网',region:'CN',title:'国家电网凌晨官宣：缺留学生',play:108481,fans:40,consult:7,shares:3129,finish:22.26,hook:'国家电网凌晨官宣',type:'双高'},
+  {date:'2026/2/20',topic:'建档',region:'CN',title:'90%的留学生都不知道，海投1000份简历都没有这事重要！',play:74888,fans:27,consult:0,shares:3547,finish:14.96,hook:'90%的留学生都不知道',type:'传播'},
+  {date:'2026/3/18',topic:'在华欧企',region:'CN',title:'在华欧企凌晨喊话：缺留学生',play:27294,fans:50,consult:25,shares:1053,finish:17.18,hook:'在华欧企凌晨喊话',type:'双高'},
+  {date:'2026/3/24',topic:'南京人才引进',region:'CN',title:'重磅！南京启动引才计划，留学生这次真的太吃香了，直接拿40W！',play:49112,fans:29,consult:12,shares:275,finish:17.10,hook:'重磅！南京启动引才计划',type:'引流'},
+  {date:'2026/2/3',topic:'英国商会',region:'UK',title:'英国商会非常需要26-29届留学生！',play:70486,fans:30,consult:20,shares:334,finish:30.32,hook:'英国商会非常需要',type:'双高'},
+  {date:'2026/1/26',topic:'英国商会',region:'CN',title:'英国商会(驻北京事业部) 已开启内部申请入口',play:55496,fans:30,consult:7,shares:1698,finish:36.17,hook:'内部申请入口',type:'双高'},
+  {date:'2026/4/20',topic:'LSE家长',region:'UK',title:'从来没来过投行办公室的我，借着女儿的光来参观了',play:31496,fans:70,consult:30,shares:899,finish:18.85,hook:'借着女儿的光来参观了',type:'双高'},
+  {date:'2026/1/29',topic:'香港招聘会',region:'HK',title:'留学生春节前最好的归宿，是去参加招聘会',play:51232,fans:50,consult:20,shares:3222,finish:20.04,hook:'留学生春节前最好的归宿',type:'双高'},
+  {date:'2026/1/26',topic:'招商局香港',region:'HK',title:'招商局香港凌晨官宣：缺留学生',play:65393,fans:30,consult:10,shares:1746,finish:19.36,hook:'招商局香港凌晨官宣',type:'双高'},
+  {date:'2026/3/25',topic:'在华欧企',region:'CN',title:'留学生赢麻了，在华欧企急需中国留学生，海归还不投就是大傻子！',play:59021,fans:29,consult:11,shares:191,finish:33.92,hook:'在华欧企急需中国留学生',type:'引流'},
+  {date:'2026/2/16',topic:'在华欧企',region:'CN',title:'留学生春节后最好的归宿是去投在华欧企',play:24674,fans:40,consult:15,shares:1228,finish:14.19,hook:'最好的归宿是去投在华欧企',type:'引流'},
+  {date:'2026/2/15',topic:'内推',region:'CN',title:'聪明的家庭已经让留学生走内部通道了',play:115525,fans:10,consult:5,shares:389,finish:31.99,hook:'聪明的家庭已经让留学生走内部通道了',type:'引流'},
+  {date:'2026/3/26',topic:'华为',region:'CN',title:'深夜官宣：华为国际部缺留学生',play:88312,fans:20,consult:3,shares:1292,finish:40.13,hook:'深夜官宣：华为国际部缺留学生',type:'传播'},
+  {date:'2026/2/27',topic:'字节',region:'CN',title:'缺留学生！',play:107576,fans:12,consult:7,shares:3703,finish:26.13,hook:'缺留学生！',type:'传播'},
+  {date:'2026/1/13',topic:'四川人才引进',region:'CN',title:'四川正式官宣强留学生 QS前100拿真实编制 一次性到账40w',play:101163,fans:6,consult:2,shares:847,finish:11.71,hook:'QS前100拿真实编制',type:'传播'},
+  {date:'2026/2/17',topic:'国际组织',region:'CN',title:'越没背景的留学生越能进国际组织',play:41387,fans:20,consult:7,shares:1986,finish:14.28,hook:'越没背景的留学生越能进国际组织',type:'引流'},
+  {date:'2026/2/13',topic:'浙江招聘会',region:'CN',title:'家长一定要提醒孩子，浙江海归引才专场已官宣',play:90546,fans:7,consult:4,shares:18,finish:23.07,hook:'家长一定要提醒孩子',type:'引流'},
+  {date:'2026/1/3',topic:'大使馆',region:'CN',title:'98%的家长都不知道 留学生进大使馆的四大捷径',play:54541,fans:25,consult:11,shares:2322,finish:15.62,hook:'98%的家长都不知道',type:'引流'},
+  {date:'2026/1/7',topic:'国际组织',region:'CN',title:'其实95%的留学生都是这么当上国际公务员的',play:24357,fans:30,consult:10,shares:1942,finish:15.72,hook:'95%的留学生都是这么',type:'引流'},
+  {date:'2026/3/4',topic:'跨境清算',region:'CN',title:'中国人民银行所属单位正式官宣面向留学生招聘',play:30388,fans:20,consult:5,shares:1472,finish:24.85,hook:'中国人民银行所属单位正式官宣',type:'引流'},
+  {date:'2026/4/7',topic:'上海虹口',region:'CN',title:'上海虹口区，向留学生发出邀请函',play:23726,fans:13,consult:7,shares:1167,finish:27.25,hook:'上海虹口区，向留学生发出邀请函',type:'引流'},
+  {date:'2026/1/11',topic:'留学生结局',region:'CN',title:'留学生回国最好的四种结局',play:63750,fans:30,consult:6,shares:2689,finish:16.97,hook:'留学生回国最好的四种结局',type:'传播'},
+  {date:'2026/2/19',topic:'找工平台',region:'CN',title:'留学生高薪回国，就靠这几个平台，爸妈快记！',play:101141,fans:5,consult:1,shares:614,finish:32.25,hook:'就靠这几个平台',type:'传播'},
+  {date:'2026/4/10',topic:'推荐信',region:'UK',title:'很多HR会通过求职信快速判断：你到底是不是认真申请这份工作的人',play:27686,fans:9,consult:4,shares:69,finish:32.71,hook:'HR快速判断你',type:'引流'},
+];
+
+// ─── ROUTING ────────────────────────────────────────────────────────────────
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const pages = ['dashboard','toplist','analysis','formulas','schedule','history','ideas','entry'];
+  const idx = pages.indexOf(name);
+  if(idx>=0) tabs[idx]?.classList.add('active');
+  if(name==='toplist') renderTopList('consult');
+  if(name==='analysis') renderAnalysis();
+  if(name==='formulas') renderFormulas();
+  if(name==='schedule') renderSchedule();
+  if(name==='history') renderHistory('');
+  if(name==='ideas') renderIdeas();
+  if(name==='entry') initEntry();
+}
+
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+function fmt(n){if(!n&&n!==0)return'—';if(n>=10000)return(n/10000).toFixed(1)+'万';if(n>=1000)return(n/1000).toFixed(1)+'k';return String(n)}
+function regionTag(r){const m={CN:'tag-cn CN',US:'tag-us US',HK:'tag-hk HK',UK:'tag-uk UK',GL:'tag-gl GL'};return m[r]||'tag-cn '+r}
+function typeClass(t){return'type-'+(t||'传播')}
+
+// ─── DASHBOARD ──────────────────────────────────────────────────────────────
+function renderDashboard(){
+  // top5 by consult
+  const top5 = [...HISTORY].sort((a,b)=>b.consult-a.consult).slice(0,5);
+  const el = document.getElementById('dashboard-top5');
+  if(!el)return;
+  el.innerHTML = top5.map((d,i)=>{
+    const rc = regionTag(d.region).split(' ');
+    return`<div class="top-item">
+      <div class="top-rank ${i===0?'r1':i===1?'r2':i===2?'r3':''}">${String(i+1).padStart(2,'0')}</div>
+      <div class="top-info">
+        <div class="top-title">${d.title}</div>
+        <div class="top-meta"><span class="tag ${rc[0]}">${rc[1]}</span><span class="${typeClass(d.type)}">${d.type}</span><span class="top-account">${d.topic}</span></div>
+      </div>
+      <div class="top-nums">
+        <div class="top-main-num">${d.consult}</div>
+        <div class="top-main-label">咨询</div>
+        <div class="top-side-num">涨粉 ${d.fans}</div>
+      </div>
+    </div>`
+  }).join('');
+
+  // direction quick
+  const dirs = {};
+  HISTORY.forEach(d=>{
+    if(!dirs[d.topic]) dirs[d.topic]={fans:0,consult:0,cnt:0};
+    dirs[d.topic].fans+=d.fans||0;
+    dirs[d.topic].consult+=d.consult||0;
+    dirs[d.topic].cnt++;
+  });
+  const topDirs = Object.entries(dirs).sort((a,b)=>(b[1].consult+b[1].fans)-(a[1].consult+a[1].fans)).slice(0,6);
+  const maxScore = topDirs[0]?topDirs[0][1].consult+topDirs[0][1].fans:1;
+  const dEl = document.getElementById('dir-quick');
+  if(!dEl)return;
+  dEl.innerHTML = topDirs.map(([name,d])=>{
+    const score=d.consult+d.fans;
+    const pct=Math.round(score/maxScore*100);
+    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="font-size:12px;font-weight:500">${name}</span>
+        <span style="font-size:10px;color:var(--text3)">${d.cnt}条</span>
+      </div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+      <div style="display:flex;gap:12px;margin-top:6px">
+        <span style="font-size:10px;color:var(--text2)">咨询 <strong style="color:var(--text)">${d.consult}</strong></span>
+        <span style="font-size:10px;color:var(--text2)">涨粉 <strong style="color:var(--text)">${d.fans}</strong></span>
+      </div>
+    </div>`
+  }).join('');
+}
+
+// ─── TOP LIST ───────────────────────────────────────────────────────────────
+let currentTopSort = 'consult';
+function switchTopSort(sort, btn){
+  currentTopSort = sort;
+  document.querySelectorAll('.ctrl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTopList(sort);
+}
+function renderTopList(sort){
+  const sorted = [...HISTORY].sort((a,b)=>{
+    if(sort==='consult') return b.consult-a.consult;
+    if(sort==='share') return b.shares-a.shares;
+    return b.play-a.play;
+  });
+  const el = document.getElementById('full-toplist');
+  if(!el)return;
+  el.innerHTML = sorted.map((d,i)=>{
+    const mainNum = sort==='consult'?d.consult:sort==='share'?d.shares:d.play;
+    const mainLabel = sort==='consult'?'咨询':sort==='share'?'转发':'播放';
+    const rc = regionTag(d.region).split(' ');
+    return`<div class="top-item">
+      <div class="top-rank ${i===0?'r1':i===1?'r2':i===2?'r3':''}">${String(i+1).padStart(2,'0')}</div>
+      <div class="top-info">
+        <div class="top-title">${d.title}</div>
+        <div class="top-meta">
+          <span class="tag ${rc[0]}">${rc[1]}</span>
+          <span class="${typeClass(d.type)}">${d.type}</span>
+          <span class="top-account">${d.topic} · ${d.date}</span>
+        </div>
+      </div>
+      <div class="top-nums">
+        <div class="top-main-num">${fmt(mainNum)}</div>
+        <div class="top-main-label">${mainLabel}</div>
+        <div class="top-side-num">涨粉${d.fans} / 咨询${d.consult}</div>
+      </div>
+    </div>`
+  }).join('');
+}
+
+// ─── ANALYSIS ───────────────────────────────────────────────────────────────
+function renderAnalysis(){
+  const dirs = {};
+  HISTORY.forEach(d=>{
+    if(!dirs[d.topic]) dirs[d.topic]={fans:0,consult:0,play:0,cnt:0,items:[]};
+    dirs[d.topic].fans+=d.fans||0;
+    dirs[d.topic].consult+=d.consult||0;
+    dirs[d.topic].play+=d.play||0;
+    dirs[d.topic].cnt++;
+    dirs[d.topic].items.push(d);
+  });
+  const topDirs = Object.entries(dirs).sort((a,b)=>b[1].consult+b[1].fans - a[1].consult-a[1].fans).slice(0,8);
+  const maxPlay = Math.max(...topDirs.map(([,d])=>d.play));
+  const el = document.getElementById('dir-analysis');
+  if(!el)return;
+  el.innerHTML = topDirs.map(([name,d])=>{
+    const pct=Math.round(d.play/maxPlay*100);
+    const avgConsult=(d.consult/d.cnt).toFixed(1);
+    return`<div class="dir-card">
+      <div class="dir-name">${name}</div>
+      <div class="dir-stats">
+        <span class="dir-stat"><strong>${d.cnt}</strong> 条</span>
+        <span class="dir-stat">咨询 <strong>${d.consult}</strong></span>
+        <span class="dir-stat">涨粉 <strong>${d.fans}</strong></span>
+        <span class="dir-stat">均咨 <strong>${avgConsult}</strong></span>
+      </div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div></div>
+    </div>`
+  }).join('');
+
+  // play vs consult
+  const playTop = [...HISTORY].sort((a,b)=>b.play-a.play).slice(0,3);
+  const consultTop = [...HISTORY].sort((a,b)=>b.consult-a.consult).slice(0,3);
+  const colors = ['var(--gold)','var(--text2)','#cd7f32'];
+  document.getElementById('play-top3').innerHTML = playTop.map((d,i)=>`
+    <div class="stat-comp-item" style="margin-bottom:10px">
+      <div><div class="stat-comp-label" style="color:${colors[i]}">${d.topic}</div><div style="font-size:10px;color:var(--text3);margin-top:1px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.title}</div></div>
+      <div class="stat-comp-val">${fmt(d.play)}</div>
+    </div>`).join('');
+  document.getElementById('consult-top3').innerHTML = consultTop.map((d,i)=>`
+    <div class="stat-comp-item" style="margin-bottom:10px">
+      <div><div class="stat-comp-label" style="color:${colors[i]}">${d.topic}</div><div style="font-size:10px;color:var(--text3);margin-top:1px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.title}</div></div>
+      <div class="stat-comp-val" style="color:var(--accent3)">${d.consult}次</div>
+    </div>`).join('');
+
+  // pain points
+  const pains = [
+    {rank:'TOP1',topic:'毕业时间/届别认定',quote:'孩子12月毕业算几届？现在能投校招吗？',opp:'专项口播：留学生届别怎么算'},
+    {rank:'TOP2',topic:'建档不会办',quote:'学历认证和档案是一回事吗？要去哪里建？',opp:'建档全流程系列3-5集'},
+    {rank:'TOP3',topic:'补贴叠加问题',quote:'深圳能同时拿学历补贴和购房补贴吗？',opp:'补贴叠加算账视频'},
+    {rank:'TOP4',topic:'英澳政策差异',quote:'这些政策针对英澳的留学生也有吗？',opp:'英澳专属政策盘点'},
+    {rank:'TOP5',topic:'内推通道怎么找',quote:'哪里有内推？自己投和内推差别大吗？',opp:'内推vs网申对比选题'},
+    {rank:'TOP6',topic:'往届生还能投吗',quote:'孩子2025年毕业了，算往届了还有机会吗？',opp:'往届生求职通道专项'},
+  ];
+  document.getElementById('pain-grid').innerHTML = pains.map(p=>`
+    <div class="pain-item">
+      <div class="pain-rank">${p.rank}</div>
+      <div class="pain-topic">${p.topic}</div>
+      <div class="pain-quote">"${p.quote}"</div>
+      <div class="pain-opp">→ ${p.opp}</div>
+    </div>`).join('');
+}
+
+// ─── FORMULAS ────────────────────────────────────────────────────────────────
+function renderFormulas(){
+  const titleFormulas = [
+    {num:'公式01',name:'凌晨官宣型',code:'[权威机构]凌晨官宣：缺留学生',eg:'字节凌晨通知：全球涨薪，缺留学生 → 21万播',avg:'均播放 12万+'},
+    {num:'公式02',name:'认知纠偏型',code:'X%的留学生都不知道，[真正重要的事]',eg:'90%的留学生都不知道，海投1000份没有这事重要 → 3547转发',avg:'均转发 2000+'},
+    {num:'公式03',name:'官方大招型',code:'[城市/机构]官宣！[利益]+[身份限定]',eg:'重磅！南京启动引才计划，留学生直接拿40W → 12咨询',avg:'均咨询 8+'},
+    {num:'公式04',name:'归宿型',code:'[时间节点]留学生最好的归宿，是去[具体机会]',eg:'留学生春节前最好的归宿，是去参加香港招聘会 → 50涨粉',avg:'均涨粉 30+'},
+    {num:'公式05',name:'忽然型',code:'[机构]忽然[动作]？',eg:'香港生产力局忽然要招留学生？ → 11涨粉3咨询',avg:'完播率高'},
+    {num:'公式06',name:'家长故事型',code:'[自谦降维开头]+[孩子的成功结果]',eg:'从来没进过投行办公室，借着女儿的光来参观了 → 70涨粉30咨询',avg:'咨询转化最强'},
+  ];
+  const hookFormulas = [
+    {num:'钩子01',name:'数字冲击开头',code:'[具体数字]的[受众]+都[犯了/不知道/在做]的[错误]',eg:'90%的留学生都不知道，海投1000份简历都没有这事重要！',avg:'适合信息差选题'},
+    {num:'钩子02',name:'官方动作开头',code:'刚刚/凌晨/深夜，[权威机构]+官宣/通知+[与你的关系]',eg:'国资委刚成立的这个新机构，和留学生的关系太大了',avg:'完播率普遍>30%'},
+    {num:'钩子03',name:'反向开头',code:'留学生/家长[反直觉行为]，其实[真相]',eg:'越没背景的留学生越能进国际组织',avg:'转发率高'},
+    {num:'钩子04',name:'家长第一视角',code:'[自谦/意外场景]+[事件]',eg:'从来没来过投行办公室，借着女儿的光来参观了',avg:'咨询转化最强'},
+  ];
+  const ctaFormulas = [
+    {num:'CTA01',name:'关键词暗号型',code:'评论区敲【[关键词]】，我[把XX发给你]',eg:'评论区敲【沪】，我直接发您报名入口和岗位详情',avg:'转化率最高，可量化'},
+    {num:'CTA02',name:'1v1分析型',code:'留言[孩子的学校+专业]，我来帮孩子1对1分析',eg:'留言孩子的【学校+专业】，帮你看看最适合哪个央企机会',avg:'适合高客单价转化'},
+    {num:'CTA03',name:'资料包型',code:'[强调稀缺]+敲[暗号]+[我免费发你]',eg:'只有10%的人知道，敲【所】发您岗位详情',avg:'稀缺感驱动评论'},
+    {num:'CTA04',name:'群引流型',code:'[身份认同]+欢迎加入[专属群]',eg:'LSE家长进，欢迎讨论孩子的就业信息差',avg:'适合引流私域'},
+  ];
+
+  const renderGrid = (id,data)=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.innerHTML=data.map(f=>`<div class="formula-card">
+      <div class="formula-num">${f.num}</div>
+      <div class="formula-name">${f.name}</div>
+      <div class="formula-code">${f.code}</div>
+      <div class="formula-eg"><strong>验证案例：</strong>${f.eg}</div>
+      <div class="formula-avg">效果参考：<strong>${f.avg}</strong></div>
+    </div>`).join('');
+  };
+  renderGrid('title-formulas',titleFormulas);
+  renderGrid('hook-formulas',hookFormulas);
+  renderGrid('cta-formulas',ctaFormulas);
+}
+
+// ─── SCHEDULE ────────────────────────────────────────────────────────────────
+function renderSchedule(){
+  const items = [
+    {date:'本周',title:'建档系列：留学生回国这4步，90%的家长第一步就做错了',tags:['最高优先','引流型','建档系列#1'],level:'urgent',person:'建议Una'},
+    {date:'本周',title:'LSE/英国方向：女儿在G5读书，我整理了一份让她少走弯路的求职清单',tags:['英澳补仓','双高型','家长视角'],level:'urgent',person:'建议Swennie'},
+    {date:'本周',title:'在华欧企系列：留学生别再只盯大厂，这条赛道年薪50万准点下班',tags:['高优先','引流型','欧企系列'],level:'high',person:'建议Yulia'},
+    {date:'下周',title:'国际组织新方向：世界数据组织北京成立，留学生家门口拿世界编制',tags:['高优先','传播型','国际组织'],level:'high',person:'建议Linnea'},
+    {date:'下周',title:'凌晨官宣系列：[待时效信息] 跟进最新政策动态出稿',tags:['时效内容','传播型','随时待命'],level:'mid',person:'全员'},
+    {date:'下周',title:'家长故事：250万留学投入，买的不是文凭，是孩子兜住自己的底气',tags:['双高型','家长共鸣','引流群'],level:'mid',person:'建议Jaden'},
+  ];
+  const el = document.getElementById('schedule-list');
+  if(!el)return;
+  el.innerHTML = items.map(s=>`<div class="sched ${s.level}">
+    <div class="sched-date">${s.date}</div>
+    <div class="sched-info">
+      <div class="sched-title">${s.title}</div>
+      <div class="sched-tags">${s.tags.map(t=>`<span class="sched-tag ${t.includes('优先')||t.includes('补仓')?'r':t.includes('高优先')?'o':t.includes('型')?'b':'g'}">${t}</span>`).join('')}</div>
+    </div>
+    <div class="sched-person">${s.person}</div>
+  </div>`).join('');
+}
+
+// ─── HISTORY TABLE ───────────────────────────────────────────────────────────
+function filterHistory(){
+  const region = document.getElementById('filter-region').value;
+  renderHistory(region);
+}
+function renderHistory(regionFilter){
+  const data = regionFilter ? HISTORY.filter(d=>d.region===regionFilter) : HISTORY;
+  const tbody = document.getElementById('history-tbody');
+  if(!tbody)return;
+  tbody.innerHTML = data.map(d=>{
+    const rc = regionTag(d.region).split(' ');
+    const isHigh = (d.consult>=5||d.fans>=20);
+    return`<tr>
+      <td class="mono" style="color:var(--text3)">${d.date}</td>
+      <td>${d.topic}</td>
+      <td><span class="tag ${rc[0]}">${rc[1]}</span></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${isHigh?'<span class="viral-dot"></span>':''}${d.title}</td>
+      <td class="mono">${fmt(d.play)}</td>
+      <td class="mono" style="color:${d.fans>=20?'var(--accent)':'var(--text)'}">${d.fans||0}</td>
+      <td class="mono" style="color:${d.consult>=5?'var(--accent3)':'var(--text)'}">${d.consult||0}</td>
+      <td class="mono">${fmt(d.shares)}</td>
+      <td class="mono" style="color:${d.finish>=30?'var(--accent)':d.finish>=20?'var(--text2)':'var(--text3)'}">${d.finish}%</td>
+      <td><span class="${typeClass(d.type)}">${d.type}</span></td>
+    </tr>`
+  }).join('');
+}
+
+// ─── ENTRY FORM ──────────────────────────────────────────────────────────────
+function initEntry(){
+  const today = new Date().toISOString().split('T')[0];
+  const el = document.getElementById('e-date');
+  if(el) el.value = today;
+}
+function checkViralEntry(){
+  const v = parseInt(document.getElementById('e-shares').value)||0;
+  document.getElementById('e-viral-hint').style.display = v>=1000?'block':'none';
+}
+function submitEntry(){
+  const req = ['e-title','e-account','e-comments','e-shares'];
+  let ok = true;
+  req.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el.value.trim()){el.classList.add('error');ok=false;}
+    else el.classList.remove('error');
+  });
+  if(!document.getElementById('e-collector').value){
+    document.getElementById('e-collector').classList.add('error');ok=false;
+  }
+  if(!ok) return;
+  // Clear form
+  ['e-title','e-account','e-comments','e-likes','e-shares','e-duration','e-play','e-finish','e-hook','e-cta','e-notes'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  document.getElementById('e-collector').value='';
+  document.getElementById('e-direction').value='';
+  document.getElementById('e-viral-hint').style.display='none';
+  const msg=document.getElementById('e-success');
+  msg.style.display='block';
+  setTimeout(()=>msg.style.display='none',3000);
+  initEntry();
+}
+function submitAndView(){
+  submitEntry();
+  showPage('dashboard');
+}
+
+
+// ─── IDEAS DATA ─────────────────────────────────────────────────────────────
+const IDEAS_DATA = [
+  {
+    id:"us_city",market:"US",icon:"🗽",dir:"北美城市求职矩阵",weight:14,
+    desc:"美国70%核心方向。历史验证：城市选题1329转发，量化系列31620播。按城市拆成独立系列，可持续出稿2个月以上。",
+    methods:["乘法·城市矩阵","除法·切细分行业","加法·+薪资对比"],
+    ideas:[
+      {num:"01",market:"US",topic:"湾区求职指南：计算机/AI留学生唯一的答案",op:"chu",opLabel:"除法",
+       titles:["湾区到底有多卷？CS留学生真实数据告诉你值不值得去","谷歌苹果Meta都在湾区，但这里留学生求职的真实胜率是多少","湾区vs西雅图：CS留学生选哪个城市成功率更高？"],
+       source:"美国劳工统计局BLS就业数据",url:"https://www.bls.gov/",
+       script:"<strong>开头：</strong>CS留学生选城市，湾区几乎是唯一答案，但卷到什么程度你真的知道吗？<strong>核心：</strong>湾区优势：谷歌苹果Meta总部全在这，岗位密度全美第一，H1B sponsor最成熟；劣势：生活成本全美最高，竞争最激烈，应届OPT转H1B难度大。数据：湾区软件工程师中位年薪15.8万美元，但房租中位数3200美元/月。对于想留美的CS留学生，这里依然是起点。",
+       ref:"历史验证：美国城市选题稳定转发"},
+      {num:"02",market:"US",topic:"西雅图性价比第一：亚马逊微软都在这，竞争比湾区小一半",op:"jia",opLabel:"加法",
+       titles:["西雅图：比湾区好找工作，比纽约生活成本低，留学生被严重低估的城市","亚马逊微软总部都在西雅图，为什么很多留学生不考虑这里","西雅图求职指南：没有州税，华大就业资源顶级，CS留学生快看"],
+       source:"Glassdoor西雅图薪资数据",url:"https://www.glassdoor.com/",
+       script:"<strong>开头：</strong>如果你觉得湾区太卷，西雅图是被严重低估的替代方案。<strong>核心：</strong>亚马逊+微软双总部，岗位数量仅次于湾区；华盛顿州无个人所得税，同等年薪实际到手比加州多约8%；生活成本比湾区低30%以上；华盛顿大学CS全球前十，校企关系极强。对不想卷湾区的留学生，西雅图是2026年最优解。",
+       ref:"历史验证：西雅图选题6492转发"},
+      {num:"03",market:"US",topic:"纽约金融留学生求职指南：投行咨询对冲基金全在这",op:"chu",opLabel:"除法",
+       titles:["非CS留学生选城市，纽约是唯一答案，这是为什么","华尔街投行咨询公司都在纽约，商科留学生求职指南来了","纽约vs波士顿：金融留学生选哪个城市？数据说话"],
+       source:"纽约州就业统计数据",url:"https://dol.ny.gov/",
+       script:"<strong>开头：</strong>商科金融留学生选城市，纽约几乎没有竞争对手。<strong>核心：</strong>高盛摩根JP摩根麦肯锡BCG纽约总部全在这；金融分析师中位年薪9.5万美元，顶级投行应届生总包可达20万+；纽约不只是金融，科技公司也在增长，Google Meta在纽约的团队超过1万人。不是CS但又想留美的留学生，纽约是最现实的选择。",
+       ref:"商科留学生高需求方向"},
+      {num:"04",market:"US",topic:"奥斯汀：没有州税+科技岗增长最快，刚毕业性价比最高",op:"jia",opLabel:"加法",
+       titles:["特斯拉甲骨文都搬去奥斯汀了，留学生为什么还没注意到这个城市","奥斯汀：没有州税、房价低、科技岗在爆发，2026年留学生的新机会","湾区太贵西雅图太冷，奥斯汀是留学生刚毕业最好的落脚城市"],
+       source:"德克萨斯劳工部就业数据",url:"https://www.twc.texas.gov/",
+       script:"<strong>开头：</strong>特斯拉甲骨文都把总部搬去奥斯汀了，但很多留学生还没反应过来这意味着什么。<strong>核心：</strong>德克萨斯州无个人所得税；奥斯汀科技岗2024-2026年增长超40%；生活成本比湾区低约50%；竞争还没有湾区和西雅图激烈，是留学生刚毕业的性价比之选。",
+       ref:"新兴城市信息差选题"},
+      {num:"05",market:"US",topic:"OPT转H1B完整攻略：每一步怎么操作",op:"jian",opLabel:"减法",
+       titles:["OPT到H1B，留美最难的一关，全部流程讲清楚","H1B抽签失败了怎么办？还有这3条备用路径","2026年H1B抽签录取率35%，留学生提前知道这些能提高胜算"],
+       source:"美国移民局USCIS官网",url:"https://www.uscis.gov/",
+       script:"<strong>开头：</strong>留美求职最大的不确定性是H1B，今天把完整流程和备用方案全部讲清楚。<strong>核心：</strong>STEM专业OPT可延长至3年，期间有3次H1B抽签机会；2026年H1B录取率约35%；备用方案：L1签证（先在跨国公司海外工作1年）、O1签证（特殊才能）、EB-1/EB-2绿卡（长期）。关键是提前规划，不要等到OPT最后3个月才开始想。",
+       ref:"留美焦虑最强触点，高转发高咨询"}
+    ]
+  },
+  {
+    id:"us_zhongzi",market:"US",icon:"🏢",dir:"在美中资大厂赛道",weight:12,
+    desc:"美国70%核心方向。历史验证：美国普通话岗197849播放，是你们账号美国方向最强爆款。用乘法做成按公司的系列内容。",
+    methods:["乘法·按公司系列","加法·普通话优势","除法·切细分岗位"],
+    ideas:[
+      {num:"01",market:"US",topic:"阿里美区：普通话就是核心竞争力，年薪20万美元",op:"jia",opLabel:"加法",
+       titles:["阿里巴巴美区专招中国留学生，普通话流利直接进","阿里美区软件工程师年薪20万美元，竞争比谷歌小太多了","90%的美国留学生不知道阿里美区有留学生专项通道"],
+       source:"阿里巴巴官方校招",url:"https://talent.alibaba.com/",
+       script:"<strong>开头：</strong>美国留学生有一个巨大的竞争优势被严重低估——你的普通话。<strong>核心：</strong>阿里美区专门开放普通话优势岗，软件工程师中位年薪约20万美金，签字费和股票齐全，免费三餐通勤班车。更重要的是，中国留学生进去就是核心骨干，晋升速度远超美国本土员工。",
+       ref:"历史验证：美国普通话岗197849播"},
+      {num:"02",market:"US",topic:"字节跳动美国：TikTok国际事业部点名中国留学生",op:"jia",opLabel:"加法",
+       titles:["字节跳动美区官宣：国际事业部缺留学生，年薪直冲45万美元","TikTok成立合资公司，中国留学生现在进字节是最好时机","字节美区vs谷歌：同样的CS背景，哪个更好进？"],
+       source:"字节跳动官方校招",url:"https://jobs.bytedance.com/",
+       script:"<strong>开头：</strong>TikTok在美国成立合资公司，字节国际事业部大规模招聘，这对中国留学生意味着什么？<strong>核心：</strong>字节美区应届生年薪21-45万美元，有签字费和股票；国际事业部明确需要中英双语；中国留学生在这里不是外来者，是最需要的人才。这个窗口期不会一直开放。",
+       ref:"历史验证：字节凌晨官宣系列累计播放超40万"},
+      {num:"03",market:"US",topic:"SHEIN/Anker/莉莉丝：中小出海中资，竞争更小机会更大",op:"chu",opLabel:"除法",
+       titles:["除了阿里字节，还有这些在美中资企业，竞争小得多","SHEIN年薪40万美元，Anker/莉莉丝同样是好选择，很多留学生没听过","美国留学生找在美中资企业，不只有大厂，这些中型公司更好进"],
+       source:"LinkedIn在美中资企业薪资数据",url:"https://www.linkedin.com/",
+       script:"<strong>开头：</strong>在美中资企业不只有阿里字节，还有一批中型公司同样给力，而且竞争小得多。<strong>核心：</strong>SHEIN美区营销岗年薪35-45万美元，明确需要双语；Anker在美扩张快，产品和市场岗大量招聘；莉莉丝游戏出海业务，海外运营岗中文是必须条件。这些公司知名度低但待遇不差，是留学生的捡漏机会。",
+       ref:"在美中资系列持续爆款"},
+      {num:"04",market:"US",topic:"美国量化岗赛道：数学CS留学生年薪200万的路怎么走",op:"jia",opLabel:"加法",
+       titles:["量化岗年薪200万，但99%的留学生不知道入门路径是什么","数学CS背景留学生，量化赛道是比大厂薪资高3倍的选择","从大二开始布局量化实习，这条路到底有多难走？"],
+       source:"Glassdoor量化岗薪资数据",url:"https://www.glassdoor.com/",
+       script:"<strong>开头：</strong>量化岗薪资是硅谷大厂的3倍，但很多留学生连入门路径都不清楚。<strong>核心：</strong>量化岗三层：买方矿工（年薪300万+，门槛极高）、中台量化开发（100-200万，可以努力够到）、后台数据分析（50-100万，最适合入门）。大多数留学生应该从中后台切入，核心要求是Python+数学统计+个人项目。",
+       ref:"历史验证：量化系列高净值用户"},
+      {num:"05",market:"US",topic:"美国Networking三法宝：吃饭/辅导/情绪价值",op:"jia",opLabel:"加法",
+       titles:["在美国找工作，这3个networking技巧比刷题更重要","中国留学生把networking搞错了：不是找中国同学，是这样做","美国留学毕业必须带走两样东西：文凭和人际网"],
+       source:"LinkedIn职业发展报告",url:"https://www.linkedin.com/",
+       script:"<strong>开头：</strong>很多中国留学生把networking理解成找中国同学抱团，这是最大的误区。<strong>核心：</strong>三个法宝：①美食破冰，做中国菜请美国同学，边吃边建关系；②学习辅导，数学好可以帮美国同学补微积分，这些人毕业后会给你介绍机会；③情绪价值，会倾听比能说会道更重要。毕业时不能只带文凭，还要带一张能托住你的人际网。",
+       ref:"历史验证：networking选题2567转发"}
+    ]
+  },
+  {
+    id:"us_ai",market:"US",icon:"🤖",dir:"AI时代留学生就业",weight:14,
+    desc:"美国70%核心方向+跨赛道蓝海。历史验证：AI能力视频单条14000转发。用加法把AI焦虑和留学生求职结合，是当前增长最快的方向。",
+    methods:["加法·AI+留学求职","除法·切具体岗位","乘法·按行业裂变"],
+    ideas:[
+      {num:"01",market:"US",topic:"Anthropic/Stripe/Databricks：AI独角兽比大厂好进，留美新机会",op:"jia",opLabel:"加法",
+       titles:["Anthropic年化收入300亿美元，现在进AI独角兽是最好时机","比谷歌好进，薪资不输大厂：美国AI独角兽留学生求职指南","Anthropic/Stripe年薪17万美元起，这3家独角兽正在疯狂招人"],
+       source:"Anthropic官方ARR披露2026/4/7",url:"https://www.anthropic.com/",
+       script:"<strong>开头：</strong>美国AI独角兽正在疯狂抢人，而且比大厂好进得多。<strong>核心：</strong>Anthropic年化收入已达300亿美元，全球扩招；实习月薪约2万美元，应届年薪18万美元起；特别需要中英双语留学生。Stripe已与腾讯合作接入微信支付，急需中英双语人才；Databricks应届年薪22万美元，提供H1B赞助。",
+       ref:"Anthropic权威信源，爆款潜力极大"},
+      {num:"02",market:"US",topic:"AI时代金融留学生最安全的岗位：Anthropic报告94%替代率怎么看",op:"jia",opLabel:"加法",
+       titles:["Anthropic报告：金融AI替代率94%，但这30个岗位恰恰最安全","AI时代学金融的留学生不用慌，这些岗位AI根本做不了","2026年金融留学生最该冲的方向：强判断强人际AI替代不了"],
+       source:"Anthropic AI经济报告2026/4/22",url:"https://www.anthropic.com/research",
+       script:"<strong>开头：</strong>Anthropic最新报告，金融行业AI理论替代率94%，但先别慌，今天告诉你为什么学金融的留学生反而更安全。<strong>核心：</strong>AI替代的是标准化分析工作，但战略决策、客户关系、监管合规、跨境谈判这些强人际强判断的岗位AI做不了。最安全的30个金融岗位中超过一半需要国际视野，这恰恰是留学生的核心优势。",
+       ref:"Anthropic权威报告，爆款信源"},
+      {num:"03",market:"US",topic:"会用AI的留学生求职效率是不会用的10倍",op:"jia",opLabel:"加法",
+       titles:["同样的留学背景，会用AI求职的孩子和不会用的，差距已经是量级的了","留学生求职用Claude/GPT辅助，效率能提升几倍？亲测结果","2026年留学生求职，不会用AI工具已经是劣势了"],
+       source:"Anthropic就业经济报告2026",url:"https://www.anthropic.com/research",
+       script:"<strong>开头：</strong>今天讲一个很多家长没意识到的事：会用AI和不会用AI的孩子，求职效率差距已经是量级的了。<strong>核心：</strong>用AI辅助简历优化，匹配度从20%提升到60%；用AI做行业研究，面试准备时间从一周缩短到两天；用AI批量定制cover letter，投递效率提升10倍。现在会用AI工具已经是基础配置，不是加分项。",
+       ref:"AI焦虑+留学求职双重触点"},
+      {num:"04",market:"US",topic:"寒窗12年大学毕业还要回炉技校：AI时代留学生的危与机",op:"jia",opLabel:"加法",
+       titles:["大学毕业回炉技校的新闻，给留学家长的3个判断","AI时代不是高学历没用，而是你的高学历用错了方向","留学生回国最大的竞争对手，不是国内应届生，是AI"],
+       source:"Anthropic就业趋势报告2026",url:"https://www.anthropic.com/research",
+       script:"<strong>开头：</strong>最近多地鼓励大学生回炉技校，对花了两三百万送孩子出国的家庭意味着什么？<strong>核心：</strong>首先不要慌。AI时代不是学历无用，而是单一能力无用。留学生的优势是复合能力：语言+国际视野+跨文化背景，这些恰恰AI替代不了。但如果孩子只会考试，没有实习没有项目，学历再高也危险。",
+       ref:"转发6236的AI选题，与留学结合爆款潜力极大"},
+      {num:"05",market:"US",topic:"马斯克xAI要把键盘鼠标的活全做了：留学生哪些岗位最危险",op:"jia",opLabel:"加法",
+       titles:["马斯克访谈：xAI要让AI把人类用键盘鼠标做的事全做了，留学生怎么办","全球客服市场1万亿美元要被AI吃掉，这对留学生意味着什么","AI要替代白领工作，受冲击最大和最安全的留学生岗位分别是什么"],
+       source:"马斯克公开访谈+深研阅读Reportify解读",url:"https://x.com/elonmusk",
+       script:"<strong>开头：</strong>马斯克在最新访谈里说，xAI的目标是让AI把人类用键盘鼠标做的所有工作全部接管。<strong>核心：</strong>最危险的岗位：数据录入、基础分析、标准化报告；最安全的岗位：需要跨文化沟通的国际业务、需要建立信任的客户关系、需要判断力的投资决策。留学生的国际背景在这个转型中反而是最大的护城河。",
+       ref:"历史验证：马斯克相关选题转发6236"}
+    ]
+  },
+  {
+    id:"us_lowgrade",market:"US",icon:"📊",dir:"量化金融/低年级项目",weight:12,
+    desc:"美国70%高净值方向。历史验证：低年级项目31620播，量化系列持续引流。这类家长消费意愿最强，是高客单价咨询的核心来源。",
+    methods:["加法·低年级布局","减法·拆申请步骤","乘法·公司系列"],
+    ideas:[
+      {num:"01",market:"US",topic:"Citadel低年级项目：大一就能申请，大三才开始的人已经晚了",op:"jia",opLabel:"加法",
+       titles:["量化公司从大一就开始抢人，很多家长等孩子大三才知道已经晚了","女儿大二就拿了Citadel的offer，我们做对了什么","Citadel低年级项目申请全攻略：时间线+准备清单"],
+       source:"Citadel官方校招",url:"https://www.citadel.com/careers/",
+       script:"<strong>开头：</strong>量化公司不等到你大三大四，他们从大一大二就开始圈人了。<strong>核心：</strong>Citadel低年级项目不看你会多少复杂模型，就看两点：基础扎不扎实+有没有自己折腾过东西。大一就自己做了几个数据分析小项目的孩子，面试官最喜欢。申请时间秋季10-11月，春季3-4月，提前规划至关重要。",
+       ref:"历史验证：低年级项目31620播"},
+      {num:"02",market:"US",topic:"Jane Street/Hudson River：顶级量化公司留学生进入路径",op:"chu",opLabel:"除法",
+       titles:["Jane Street年薪300万，但留学生到底怎么才能进去","Hudson River Trading低年级项目：数学竞赛背景优先","顶级量化公司Three Arrows/DE Shaw，留学生申请需要准备什么"],
+       source:"Glassdoor量化薪资数据",url:"https://www.glassdoor.com/",
+       script:"<strong>开头：</strong>Jane Street年薪300万，这不是传说，但要进去需要什么准备？<strong>核心：</strong>Jane Street：侧重概率和逻辑推理，数学竞赛背景加分；HRT：更看重系统编程能力；DE Shaw：量化研究方向，统计和机器学习基础要扎实。这些公司每年从大学阶段就开始筛选，大二大三是最关键的窗口期。",
+       ref:"高净值用户，咨询转化率最强"},
+      {num:"03",market:"US",topic:"量化实习转正率：哪家公司从实习到全职最顺畅",op:"jia",opLabel:"加法",
+       titles:["量化实习转正率对比：Citadel/Jane Street/Two Sigma哪家最高","量化暑期实习结束后，多少人能拿到全职offer？真实数据","量化公司实习转全职攻略：做对这几件事转正率高一倍"],
+       source:"Glassdoor+Blind量化薪资讨论",url:"https://www.glassdoor.com/",
+       script:"<strong>开头：</strong>量化实习转正和投行实习转正逻辑完全不同，今天把规律讲清楚。<strong>核心：</strong>Citadel暑期实习转正率约40-50%；Jane Street实习转正率更高但名额极少；Two Sigma相对友好，更看重学习能力而非已有经验。关键是实习期间主动表现，不要等着被评估。",
+       ref:"量化方向高净值，持续稳定咨询"},
+      {num:"04",market:"US",topic:"数学/CS双学位：量化赛道最强配置怎么准备",op:"jia",opLabel:"加法",
+       titles:["康奈尔数学+CS双学位，量化岗申请胜率能高多少","量化岗最喜欢什么专业背景？真实数据告诉你","留学生选专业考虑量化赛道，数学统计CS金融哪个最值得读"],
+       source:"量化公司官方JD要求分析",url:"https://www.citadel.com/careers/",
+       script:"<strong>开头：</strong>量化公司最喜欢什么背景？今天用真实数据说话。<strong>核心：</strong>纯数学：适合走量化研究方向，对数理推导要求极高；CS：适合量化开发，工程能力优先；统计：数据科学方向最匹配；双学位（数学+CS）是最强配置，各大量化公司的JD显示这个组合录取率是单学位的2.3倍。",
+       ref:"选题决策型，家长极度关注"},
+      {num:"05",market:"US",topic:"北美量化实习清单：当前开放申请的公司汇总",op:"jian",opLabel:"减法",
+       titles:["当前开放申请的北美量化实习机会全部在这里，截止日期都标好了","量化暑期实习申请窗口正在关闭，这几家今天还来得及投","北美量化实习2026汇总：Citadel/AQR/Renaissance，尽快投递"],
+       source:"各量化公司官方校招页",url:"https://www.citadel.com/careers/",
+       script:"<strong>开头：</strong>量化暑期实习申请窗口正在关闭，这几家今天还来得及投。<strong>核心：</strong>Citadel：暑期实习尽快，招满即止；AQR：5月底截止；Renaissance：全年滚动招聘；Two Sigma：已开放2026暑期。建议同时投递多家，量化公司面试流程短，快的两周就能出结果。",
+       ref:"时效性选题，高转发"}
+    ]
+  },
+  {
+    id:"uk_g5",market:"UK",icon:"🎓",dir:"英国G5院校专项",weight:10,
+    desc:"英国20%核心方向。历史最强：LSE家长系列单条30+咨询，是全账号咨询效率第一。用乘法做成G5各校专属系列，每个学校一条，可出5条系列。",
+    methods:["乘法·学校系列","加法·+回国路径","除法·切细分方向"],
+    ideas:[
+      {num:"01",market:"UK",topic:"LSE金融毕业生回国：进中金中信的真实胜率",op:"jia",opLabel:"加法",
+       titles:["LSE金融毕业回国，进中金中信的真实成功率是多少","女儿在LSE读大二，已经拿到投行暑期实习offer，我们做对了什么","LSE vs 港大：金融留学生回国就业哪个更有优势"],
+       source:"英国高等教育统计局HESA",url:"https://www.hesa.ac.uk/",
+       script:"<strong>开头：</strong>LSE金融毕业回国，是不是就能顺利进中金中信？今天说实话。<strong>核心：</strong>LSE在国内金融圈认可度极高，三中一华面试官很多是LSE校友，有天然优势。但关键不是文凭，是实习经历。大一就开始关注招聘时间线，自己补财务建模，面试前行为故事准备十几个，这才是能拿到offer的真正原因。",
+       ref:"历史最强：LSE家长系列30+咨询"},
+      {num:"02",market:"UK",topic:"英国商会回国通道：英国留学生最被低估的选择",op:"jia",opLabel:"加法",
+       titles:["英国商会驻北京事业部内部申请入口又开了，英国留学生速看","英国商会是什么单位？为什么说是英国留学生回国含金量最高的机会","英国留学生回国不用走普通校招，英国商会是专门给你们留的通道"],
+       source:"英国驻华使馆商务处",url:"https://www.gov.uk/government/world/china",
+       script:"<strong>开头：</strong>英国留学生回国找工作，有一条很多人没注意到的通道——英国商会驻北京事业部。<strong>核心：</strong>英国商会在中国参照编制管理，处理国际商务，英语好+英国留学背景是最大加分项。不走公开招聘，有时开放内部申请入口，需要主动关注。历史上这条内容转发率和完播率都极高。",
+       ref:"历史验证：英国商会多条内容均高数据"},
+      {num:"03",market:"UK",topic:"帝国理工工科留学生回国：华为/国家电网/ABB哪个最适合",op:"chu",opLabel:"除法",
+       titles:["帝国理工工科毕业回国，华为国家电网ABB哪个最适合你","英国工科留学生回国求职指南：理工科背景的最优路径","帝国理工机械/CS/能源，毕业后最好的三条出路是什么"],
+       source:"帝国理工官方就业报告",url:"https://www.imperial.ac.uk/careers/",
+       script:"<strong>开头：</strong>帝国理工工科毕业，国内有三个方向是留学生的最优选择。<strong>核心：</strong>华为：国际部需要有海外工作经验的工科背景，帝国理工在华为非常认可；国家电网：工科央企天花板，帝国理工能源方向是稀缺人才；ABB/西门子：在华欧企工科方向，准点下班年薪35-55万。",
+       ref:"UK工科方向空白，高差异化"},
+      {num:"04",market:"UK",topic:"英国一年制硕士回国时间优势：比美国早一年参加秋招",op:"jia",opLabel:"加法",
+       titles:["英国一年制硕士有个被忽视的巨大优势：比美国同学早一年回国秋招","花150万读一年英国硕士，时间优势到底值多少钱","英本vs美本回国：为什么英国留学生秋招竞争力反而更强"],
+       source:"教育部留学服务中心认证数据",url:"https://portal.cscse.edu.cn/",
+       script:"<strong>开头：</strong>英国一年制硕士有个很多人没注意到的战略优势——比美国同学早一年参加国内秋招。<strong>核心：</strong>英国9月入学6月毕业，可以在国内秋招（8-10月）期间拿到应届身份；美国同学通常5月毕业，错过了同年的秋招主窗口。这一年的差距，在竞争激烈的金融和央企岗位上意味着多一次完整的机会。",
+       ref:"英UK差异化优势，信息差选题"},
+      {num:"05",market:"UK",topic:"英国留学生 vs 美国留学生回国：金融岗谁更有优势",op:"jia",opLabel:"加法",
+       titles:["英国留学和美国留学，回国找金融工作到底谁更占优势","同样是QS前50，英国和美国毕业回国的实际待遇差在哪里","为什么说2026年英国留学生回国比美国留学生更适合冲金融"],
+       source:"教育部留服中心+各券商校招数据",url:"https://portal.cscse.edu.cn/",
+       script:"<strong>开头：</strong>英国留学和美国留学，回国就业到底谁更占优势？今天客观分析。<strong>核心：</strong>金融方向英国优势明显：LSE/帝国理工在国内金融圈认可度高；一年制硕士时间成本低；科技方向美国优势明显：硅谷资源、H1B路径更成熟。结论：想回国做金融选英国，想留美做科技选美国，选错了方向比选错学校更可惜。",
+       ref:"对比型内容，两端用户都转发"}
+    ]
+  },
+  {
+    id:"jiandang",market:"ALL",icon:"📋",dir:"建档/学历认证系列",weight:10,
+    desc:"全平台通用方向，历史最强爆款（48万播/3547转发）。用减法拆解成5个独立选题，每条单独出，可持续2个月。美国英国家长都需要。",
+    methods:["减法·拆步骤系列","加法·+常见错误","乘法·城市分支"],
+    ideas:[
+      {num:"01",market:"ALL",topic:"建档 vs 学历认证：是两件事，90%留学生搞混了",op:"jian",opLabel:"减法",
+       titles:["留学生回国第一件事就做错了，学历认证和建档根本不是一回事","90%的家长把建档和认证混为一谈，孩子上岸机会就这样丢了","凌晨提醒：留学生回国必须做的两件事，顺序错了就全废了"],
+       source:"教育部留学服务中心官网",url:"https://portal.cscse.edu.cn/",
+       script:"<strong>开头：</strong>告诉您一个90%家长都搞混的事——学历认证和建档，完全不是同一件事。<strong>核心：</strong>认证是证明学历真实有效，建档是把档案关系接回国内体制，两件事缺一不可，少做任何一件进国企进体制的路直接被堵死。认证去教育部留服中心，建档去户籍所在地人才中心，至少提前3个月开始办。",
+       ref:"历史验证：建档系列最高484533播"},
+      {num:"02",market:"ALL",topic:"建档材料清单：高中出国和大学出国，材料完全不同",op:"jian",opLabel:"减法",
+       titles:["高中就出国的留学生建档材料和大学出国完全不一样，千万别搞错","孩子什么时候出国决定了建档要准备什么，一定要看这条","建档材料准备错了会被退回，耽误入职，这条视频提前避坑"],
+       source:"教育部留学服务中心",url:"https://portal.cscse.edu.cn/",
+       script:"<strong>开头：</strong>建档材料不是统一的，孩子什么时候出国决定了你需要准备完全不同的东西。<strong>核心：</strong>高中出国需要：高中学籍档案+出国前户籍证明；大学后出国需要：国内大学档案转移手续+留服认证。很多家长拿错材料被退回两三次，直接耽误入职。",
+       ref:"建档拆解选题均高评论"},
+      {num:"03",market:"ALL",topic:"留学生档案丢失怎么办：最常见的三种情况和解决方法",op:"jia",opLabel:"加法",
+       titles:["档案找不到了？留学生最怕遇到的噩梦怎么解决","孩子的档案放在哪里你知道吗？很多留学生档案其实已经遗失了","留学生档案丢失三种情况和解决办法，这条视频必须发给孩子"],
+       source:"教育部学籍档案管理办法",url:"https://portal.cscse.edu.cn/",
+       script:"<strong>开头：</strong>留学生档案丢失，比你想象的要常见得多。<strong>核心：</strong>三种情况：①高中档案留在原学校没转移；②国内大学档案没有及时打包；③已转到人才中心但信息登记错误。每种情况都有补救方法，但耗时从1个月到半年不等，越早排查越好。",
+       ref:"痛点选题，高评论转化"},
+      {num:"04",market:"ALL",topic:"建档时间线：什么时候开始办最合适",op:"jian",opLabel:"减法",
+       titles:["留学生建档要提前多久？完整时间线在这里","孩子还没毕业就要开始准备建档，很多家长拖到最后悔了","留学生建档全流程需要多少时间？不提前规划真的来不及"],
+       source:"人社部档案管理规定",url:"https://www.mohrss.gov.cn/",
+       script:"<strong>开头：</strong>建档不是回国了再办的事，很多家长都卡在时间上。<strong>核心：</strong>学历认证→档案激活→档案转递→签三方，这四步走完至少需要3-4个月。建议毕业前半年就开始准备，特别是想进国企事业单位的，入职前档案必须就位。",
+       ref:"时间节点型，家长转发意愿强"},
+      {num:"05",market:"ALL",topic:"2026年学历认证新规：这3类留学生要小心",op:"jia",opLabel:"加法",
+       titles:["2026年学历认证规则变了，这3类留学生要特别注意","留学生回国认证被拒的原因90%是因为不知道这条新规","凌晨提醒：2026年学历认证新要求，QS前100的留学生也可能被卡"],
+       source:"教育部留学服务中心2026新规",url:"https://www.cscse.edu.cn/",
+       script:"<strong>开头：</strong>2026年学历认证出了新规定，有3类留学生要特别注意。<strong>核心：</strong>①远程网课超标的学位可能不被认证；②一年制硕士境外实际学习不足6个月的；③合作办学境外时间不够180天的。这些情况去认证可能被标注学习经历异常，直接影响进体制内。",
+       ref:"政策信源强，家长焦虑触点"}
+    ]
+  },
+  {
+    id:"ca_au_hk_sg",market:"OTHER",icon:"🌏",dir:"加拿大/澳洲/香港/新加坡",weight:10,
+    desc:"其他地区10%。覆盖CA/AU/HK/SG四个市场，每个市场出2-3条，差异化极大，竞品账号基本没有覆盖。",
+    methods:["加法·+本地政策","除法·切细分市场","乘法·城市矩阵"],
+    ideas:[
+      {num:"01",market:"HK",topic:"香港招商局/中银/汇丰：普通话就是敲门砖",op:"jia",opLabel:"加法",
+       titles:["香港招商局2026春招开启，专给留学生，年薪65万港币","中银香港/汇丰/腾讯香港，第二批春招留学生速看","香港金融圈普通话是稀缺资源，这几家正在疯狂抢双语人才"],
+       source:"招商局集团官网",url:"https://www.cmhk.com/main/a/2024/a5/a14/cn_recruitment.shtml",
+       script:"<strong>开头：</strong>香港第二批春招开放了，100+名企，普通话就是你最大的竞争力。<strong>核心：</strong>招商局香港年薪65-80万港币，六险二金，海外轮岗；中银香港3.5-5万港币/月；汇丰跨境金融大量需要双语人才。香港这批机会窗口期很短，招满即止。",
+       ref:"历史验证：招商局香港65393播"},
+      {num:"02",market:"AU",topic:"澳洲八大毕业回国vs留澳：2026年工签收紧后怎么选",op:"jia",opLabel:"加法",
+       titles:["澳洲工签收紧之后，澳洲八大毕业生回国还是留澳？","澳洲留学生回国求职2026年最适合的3个方向","墨尔本悉尼毕业回国，在深圳上海拿到的人才补贴是多少"],
+       source:"澳大利亚内政部移民数据",url:"https://immi.homeaffairs.gov.au/",
+       script:"<strong>开头：</strong>2026年澳洲工签政策收紧，很多在澳留学生开始认真考虑回国，今天讲最优路径。<strong>核心：</strong>澳洲八大QS排名全在前100，深圳/上海人才引进可以直接走QS前100通道，本科补贴2-3万，硕士5万；在华欧企对澳洲英语教育背景加分；出海企业澳洲市场业务背景极稀缺。",
+       ref:"澳洲方向空白巨大"},
+      {num:"03",market:"SG",topic:"新加坡国立/南洋理工毕业：新加坡留还是回国",op:"jia",opLabel:"加法",
+       titles:["NUS/NTU毕业新加坡留还是回国？2026年形势下的最优解","新加坡留学生回国，QS前10的学历在国内到底有多吃香","新加坡国立南洋理工毕业，进中国顶级金融机构有多容易"],
+       source:"新加坡人力部就业数据MOM",url:"https://www.mom.gov.sg/",
+       script:"<strong>开头：</strong>NUS/NTU在国内的认可度是QS排名最被低估的学校之一，今天讲清楚新加坡留学生回国的真实竞争力。<strong>核心：</strong>NUS/NTU QS全球前十，国内金融机构和互联网大厂都非常认可；新加坡工作经验对国内出海岗位是额外加分；如果拿到了新加坡PR，回国发展时保留新加坡身份是额外资产。",
+       ref:"新加坡方向空白，差异化极大"},
+      {num:"04",market:"CA",topic:"加拿大UBC/多伦多大学毕业：留加还是回国",op:"jia",opLabel:"加法",
+       titles:["加拿大留学生毕业留还是回国？2026年最新形势分析","UBC多大毕业，加拿大PR和回国发展哪个更值得","加拿大留学生回国求职指南：哪些岗位加拿大背景特别吃香"],
+       source:"加拿大移民部IRCC数据",url:"https://www.canada.ca/en/immigration-refugees-citizenship.html",
+       script:"<strong>开头：</strong>加拿大留学生面临和澳洲留学生一样的抉择：留下来还是回国？今天给出有数据支撑的分析。<strong>核心：</strong>加拿大EE移民系统对留学生相对友好，但近年分数线持续走高；回国路径：UBC/多大/麦吉尔QS排名高，国内认可度好，深圳/上海人才补贴可以直接申领；出海企业对有加拿大工作经验的留学生有专门需求。",
+       ref:"加拿大方向完全空白"},
+      {num:"05",market:"HK",topic:"香港高才通：美国55所高校毕业凭文凭拿香港身份",op:"jia",opLabel:"加法",
+       titles:["港府新政：美国55所高校毕业生凭文凭就能拿香港身份","香港高才通2026：哪些留学生更容易通过，好处是什么","拿香港身份有什么用？出行就业养老全部算清楚"],
+       source:"香港特区政府人才服务办公室",url:"https://www.talentengagehk.gov.hk/",
+       script:"<strong>开头：</strong>港府最新政策对美国留学生非常有利：55所美国高校的毕业生，凭文凭可以申请香港身份。<strong>核心：</strong>香港高才通A类申请后3年内可免签证工作；好处：香港身份免签178个国家，可保留内地户籍，退休后可同时领两地养老金；去香港就业年薪60-80万港币起步，且可申请留港定居。",
+       ref:"新鲜政策权威信源，高转化潜力"}
+    ]
+  },
+  {
+    id:"jiazhang",market:"ALL",icon:"👨‍👩‍👧",dir:"家长故事/情感共鸣",weight:10,
+    desc:"全平台通用，历史最强引流类型。LSE家长系列70涨粉30咨询，完播率普遍超30%。是最难被竞品复制的差异化内容，建议每周保留1条。",
+    methods:["乘法·学校家长矩阵","加法·+咨询钩子","除法·切不同痛点"],
+    ideas:[
+      {num:"01",market:"US",topic:"250万美本投入：买的不是文凭，是孩子兜住自己的底气",op:"jia",opLabel:"加法",
+       titles:["花了250万送孩子读美本，那张文凭买的是什么","女儿在康奈尔读书，我才慢慢明白那250万投的不是学历","美本家长心里话：钱花出去了，到底值不值得"],
+       source:"家长真实经历（原创）",url:"https://portal.cscse.edu.cn/",
+       script:"<strong>开头：</strong>女儿拿到康奈尔offer那天，我哭得比她还凶。不是激动，是那种终于熬出来了的感觉。<strong>核心：</strong>我们上海普通中产，250万不是小数目。但我看女儿在国内读书越来越没精神，就想哪怕换个环境让她喘口气也值得。现在她在康奈尔，整个人状态完全不一样了。所以你问250万买的是什么？不是文凭，是她在异国他乡能照顾好自己的底气。",
+       ref:"历史验证：家长故事类高评论高咨询"},
+      {num:"02",market:"US",topic:"女儿大二拿下Citadel offer：我们家从大一就做了这件事",op:"jia",opLabel:"加法",
+       titles:["女儿在康奈尔读大二，大一暑假就开始准备了，当时很多人说太早","女儿大二就拿了Citadel低年级offer，信息差真的比智商差更致命","提前规划和不提前规划，孩子求职结果差距有多大？亲历者说"],
+       source:"Citadel官方校招",url:"https://www.citadel.com/careers/",
+       script:"<strong>开头：</strong>说起来有点不好意思，女儿大一暑假就开始准备了，当时很多人说太早了。<strong>核心：</strong>大一自己做了几个数据分析小项目，大二就拿到了Citadel低年级项目offer。我当时特别纳闷：大一的孩子专业课都没上几门，人家为什么要她？后来她说，妈妈你不知道，这些顶尖量化公司从大一大二就开始圈人了，等大三大四投简历的人，好坑早就被占了一半。",
+       ref:"历史验证：低年级项目31620播"},
+      {num:"03",market:"UK",topic:"送孩子去英国读研：花了150万，现在后悔了吗",op:"jia",opLabel:"加法",
+       titles:["孩子去英国读了一年硕士，150万花出去了，现在后悔了吗","英国一年制硕士到底值不值？亲历者妈妈来说说","LSE妈妈说实话：英国留学最大的意外收获是什么"],
+       source:"英国高等教育统计局HESA",url:"https://www.hesa.ac.uk/",
+       script:"<strong>开头：</strong>孩子去英国读了一年硕士，150万花出去了，现在后悔了吗？我来说实话。<strong>核心：</strong>不后悔，但当初想清楚了几件事：一年制不是速成，是压缩了时间；英国留学最大的价值不是文凭，是那段独立生活的经历；回国的时间优势是真实的，比国内同学早一年进入秋招。后悔的是没有提前规划实习，浪费了一些时间。",
+       ref:"历史验证：LSE家长系列30+咨询"},
+      {num:"04",market:"ALL",topic:"留学生的家庭都有一个开朗的妈妈",op:"cheng",opLabel:"乘法",
+       titles:["留学生家庭有一个共同点：不是有钱，而是都有一个开朗的妈妈","留学生的家庭和普通家庭最大的差别是什么","送孩子去万里之外：最难的不是钱，是这件事"],
+       source:"原创情感内容",url:"https://portal.cscse.edu.cn/",
+       script:"<strong>开头：</strong>见过很多留学生家庭，发现一个共同点，不是有钱，而是都有一个开朗的妈妈。<strong>核心：</strong>这个妈妈舍得把孩子送到距离自己千里万里的地方，吞下了所有的焦虑害怕和不舍，只想让孩子去更大的世界里变得独立坚强。这种放手本身就是一种教育，孩子往往在这种家庭环境里走得最远。",
+       ref:"历史验证：同类内容42000转发，情感共鸣最强"},
+      {num:"05",market:"US",topic:"我一个普通妈妈：是怎么帮孩子找到中金内推通道的",op:"jia",opLabel:"加法",
+       titles:["我不懂金融，但帮孩子找到了中金的内推，我做了什么","孩子不肯找我帮忙，但这件事我还是默默做了","普通家庭的妈妈是如何帮孩子抢到好机会的"],
+       source:"中金公司官方校招",url:"https://www.cicc.com/",
+       script:"<strong>开头：</strong>我不懂金融，不认识任何行业里的人，但帮孩子找到了中金的内推通道，今天把方法讲出来。<strong>核心：</strong>我做了三件事：关注了10个做留学求职内容的视频号，每天看30分钟；在留学家长群认识了一个孩子已经进入中金的妈妈；帮孩子把简历翻译成英文版，找了专业机构优化了一遍。这些花了我两个月，但孩子说有用。",
+       ref:"家长第一视角，引发强共鸣"}
+    ]
+  }
+];
+
+let currentIdeaDir = 0;
+
+function renderIdeas() {
+  const tabsEl = document.getElementById('idea-direction-tabs');
+  if (!tabsEl) return;
+  tabsEl.innerHTML = '';
+
+  const filterEl = document.getElementById('idea-filter-tags');
+  if (filterEl) {
+    filterEl.innerHTML = `
+      <div style="font-size:11px;color:var(--text2);margin-bottom:6px;width:100%">目标市场筛选</div>
+      <button onclick="filterByMarket('ALL',this)" style="padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(124,58,237,.3);background:var(--accent);color:#fff;font-family:inherit">全部</button>
+      <button onclick="filterByMarket('US',this)" style="padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(245,200,66,.5);background:rgba(245,200,66,.15);color:#92400e;font-family:inherit">🇺🇸 美国 70%</button>
+      <button onclick="filterByMarket('UK',this)" style="padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(124,58,237,.3);background:rgba(124,58,237,.1);color:var(--accent);font-family:inherit">🇬🇧 英国 20%</button>
+      <button onclick="filterByMarket('OTHER',this)" style="padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(124,58,237,.2);background:rgba(124,58,237,.06);color:var(--accent2);font-family:inherit">🌏 其他 10%</button>
+    `;
+  }
+
+  renderHeatmap();
+  renderIdeaContent(currentIdeaDir);
+}
+
+function filterByMarket(market, btn) {
+  document.querySelectorAll('#idea-filter-tags button').forEach(b => {
+    b.style.background = b.textContent.includes('美国') ? 'rgba(245,200,66,.15)' :
+                         b.textContent.includes('英国') ? 'rgba(124,58,237,.1)' :
+                         b.textContent.includes('其他') ? 'rgba(124,58,237,.06)' : 'transparent';
+    b.style.color = b.textContent.includes('美国') ? '#92400e' : 'var(--accent)';
+  });
+  btn.style.background = market === 'US' ? '#f5c842' : 'var(--accent)';
+  btn.style.color = market === 'US' ? '#92400e' : '#fff';
+
+  const filtered = market === 'ALL' ? IDEAS_DATA : IDEAS_DATA.filter(d => d.market === market || d.market === 'ALL');
+  renderHeatmapFiltered(filtered);
+  currentIdeaDir = 0;
+  renderIdeaContentFromList(filtered, 0);
+}
+
+function renderHeatmap() { renderHeatmapFiltered(IDEAS_DATA); }
+
+function renderHeatmapFiltered(dirs) {
+  const el = document.getElementById('idea-direction-tabs');
+  if (!el) return;
+
+  const maxWeight = Math.max(...dirs.map(d => d.weight));
+
+  // Market distribution bars
+  const usCount = dirs.filter(d => d.market === 'US').reduce((s,d) => s + d.ideas.length, 0);
+  const ukCount = dirs.filter(d => d.market === 'UK').reduce((s,d) => s + d.ideas.length, 0);
+  const allCount = dirs.filter(d => d.market === 'ALL').reduce((s,d) => s + d.ideas.length, 0);
+  const otherCount = dirs.filter(d => d.market === 'OTHER').reduce((s,d) => s + d.ideas.length, 0);
+  const total = usCount + ukCount + allCount + otherCount || 1;
+
+  el.innerHTML = `
+    <div style="width:100%;margin-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <span style="font-size:12px;font-weight:600;color:var(--text)">选题方向分布</span>
+        <span style="font-size:10px;color:var(--text3)">共 ${dirs.reduce((s,d)=>s+d.ideas.length,0)} 条选题</span>
+      </div>
+      <div style="display:flex;height:32px;border-radius:8px;overflow:hidden;gap:2px">
+        <div style="flex:${usCount};background:#f5c842;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#92400e;min-width:40px">🇺🇸 ${Math.round(usCount/total*100)}%</div>
+        <div style="flex:${ukCount};background:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:30px">🇬🇧 ${Math.round(ukCount/total*100)}%</div>
+        <div style="flex:${allCount};background:#a855f7;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:30px">通用 ${Math.round(allCount/total*100)}%</div>
+        ${otherCount > 0 ? `<div style="flex:${otherCount};background:#e879f9;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;min-width:30px">🌏 ${Math.round(otherCount/total*100)}%</div>` : ''}
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(${Math.min(dirs.length,4)},1fr);gap:8px;margin-bottom:16px">
+      ${dirs.map((d,i) => {
+        const pct = Math.round(d.weight / maxWeight * 100);
+        const mktColor = d.market === 'US' ? '#f5c842' : d.market === 'UK' ? '#7c3aed' : d.market === 'OTHER' ? '#e879f9' : '#a855f7';
+        const mktBg = d.market === 'US' ? 'rgba(245,200,66,.08)' : 'rgba(124,58,237,.06)';
+        const isActive = i === currentIdeaDir;
+        return `<div onclick="switchIdeaDirFromList(${i}, ${JSON.stringify(dirs).replace(/"/g,"'")? i : i})" 
+          style="background:${isActive ? 'rgba(124,58,237,.1)' : 'var(--surface)'};border:${isActive ? '1.5px solid var(--accent)' : '1px solid var(--border)'};border-radius:10px;padding:12px;cursor:pointer;transition:.15s;position:relative;overflow:hidden">
+          <div style="position:absolute;bottom:0;left:0;right:0;height:${pct*0.5}%;background:${mktBg};transition:height .6s"></div>
+          <div style="position:relative;z-index:1">
+            <div style="font-size:16px;margin-bottom:6px">${d.icon}</div>
+            <div style="font-size:11px;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:6px">${d.dir}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:18px;font-weight:700;color:${mktColor}">${d.ideas.length}</span>
+              <span style="font-size:9px;padding:2px 6px;border-radius:3px;background:${mktColor === '#f5c842' ? 'rgba(245,200,66,.2)' : 'rgba(124,58,237,.12)'};color:${mktColor === '#f5c842' ? '#92400e' : 'var(--accent)'};font-weight:600">${d.market === 'OTHER' ? '🌏' : d.market === 'ALL' ? '通用' : '🇺🇸'.concat(d.market === 'US' ? '' : '🇬🇧')}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+
+  currentDirList = dirs;
+  renderIdeaContentFromList(dirs, currentIdeaDir);
+}
+
+let currentDirList = IDEAS_DATA;
+
+function switchIdeaDirFromList(idx) {
+  currentIdeaDir = idx;
+  renderHeatmapFiltered(currentDirList);
+}
+
+function switchIdeaDir(idx, btn) {
+  currentIdeaDir = idx;
+  renderHeatmap();
+}
+
+function renderIdeaContent(idx) {
+  renderIdeaContentFromList(IDEAS_DATA, idx);
+}
+
+function renderIdeaContentFromList(dirs, idx) {
+  if (!dirs || !dirs[idx]) return;
+  const dir = dirs[idx];
+  const el = document.getElementById('idea-content');
+  if (!el) return;
+
+  const opColors = {jia:'rgba(124,58,237,.1)|var(--accent)',jian:'rgba(245,200,66,.2)|#92400e',cheng:'rgba(34,197,94,.1)|#065f46',chu:'rgba(239,68,68,.08)|#dc2626'};
+
+  const cards = dir.ideas.map(idea => {
+    const [opBg, opFg] = (opColors[idea.op] || 'rgba(124,58,237,.1)|var(--accent)').split('|');
+    const mktColor = idea.market === 'US' ? '#f5c842' : idea.market === 'UK' ? '#7c3aed' : '#e879f9';
+    const mktBg = idea.market === 'US' ? 'rgba(245,200,66,.15)' : 'rgba(124,58,237,.1)';
+    const mktText = idea.market === 'US' ? '#92400e' : idea.market === 'UK' ? 'var(--accent)' : '#9333ea';
+    return `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:.2s;cursor:default"
+         onmouseover="this.style.borderColor='rgba(124,58,237,.25)';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+      <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:5px">${dir.dir} / 选题 ${idea.num}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);line-height:1.4">${idea.topic}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0">
+          <span style="padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;background:${mktBg};color:${mktText}">${idea.market === 'US' ? '🇺🇸 US' : idea.market === 'UK' ? '🇬🇧 UK' : idea.market === 'OTHER' ? '🌏' : '🌐 通用'}</span>
+          <span style="padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;background:${opBg};color:${opFg}">${idea.opLabel}</span>
+        </div>
+      </div>
+
+      <div style="padding:14px 16px">
+        <div style="margin-bottom:12px">
+          <div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.5px;margin-bottom:6px">参考标题三组</div>
+          ${idea.titles.map((t,i) => `
+            <div style="display:flex;gap:8px;margin-bottom:5px;align-items:flex-start">
+              <span style="width:16px;height:16px;border-radius:4px;background:${i===0?'#f5c842':i===1?'rgba(124,58,237,.15)':'var(--surface2)'};color:${i===0?'#92400e':'var(--text3)'};font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">${i+1}</span>
+              <div style="font-size:11px;color:var(--text2);line-height:1.5;padding:4px 8px;background:var(--surface2);border-radius:5px;flex:1;border-left:2px solid ${i===0?'#f5c842':'var(--border2)'}">${t}</div>
+            </div>`).join('')}
+        </div>
+
+        <div style="background:rgba(124,58,237,.04);border:1px dashed rgba(124,58,237,.15);border-radius:8px;padding:10px;margin-bottom:12px">
+          <div style="font-size:9px;color:var(--text3);letter-spacing:.5px;margin-bottom:5px;font-weight:600">口播文稿思路</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.7">${idea.script}</div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:10px;color:var(--text3)">信源：</span>
+            <a href="${idea.url}" target="_blank" style="font-size:10px;color:var(--accent2);text-decoration:none">${idea.source} ↗</a>
+          </div>
+          ${idea.ref ? `<div style="font-size:10px;padding:3px 8px;border-radius:4px;background:rgba(245,200,66,.12);color:#92400e;border:1px solid rgba(245,200,66,.25)">⚡ ${idea.ref}</div>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const methodTags = dir.methods.map(m => {
+    const cls = m.includes('加法') ? 'rgba(124,58,237,.1)|var(--accent)' :
+                m.includes('减法') ? 'rgba(245,200,66,.2)|#92400e' :
+                m.includes('乘法') ? 'rgba(34,197,94,.1)|#065f46' : 'rgba(239,68,68,.08)|#dc2626';
+    const [bg,fg] = cls.split('|');
+    return `<span style="padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;background:${bg};color:${fg}">${m}</span>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div style="background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(245,200,66,.04));border:1px solid rgba(124,58,237,.15);border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px">
+      <div style="font-size:28px;flex-shrink:0">${dir.icon}</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">${dir.dir}</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px">${dir.desc}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">${methodTags}</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">${cards}</div>
+  `;
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>{
+  renderDashboard();
+  document.getElementById('current-week-label').textContent = new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long'});
+});
+</script>
+
+<!-- IDEAS PAGE -->
+<div id="page-ideas" class="page">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div class="section-title" style="font-size:15px;margin-bottom:4px">选题灵感库</div>
+      <div style="font-size:12px;color:var(--text2)">基于168条历史爆款，用加减乘除方法提炼 · 10个方向 · 每个方向10+小选题</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;max-width:420px" id="idea-filter-tags"></div>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px" id="idea-direction-tabs"></div>
+
+  <div id="idea-content"></div>
+</div>
+</body>
+</html>
