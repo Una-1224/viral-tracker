@@ -298,7 +298,7 @@ select.form-input option{background:var(--surface2)}
   <div class="hero">
     <div>
       <div class="hero-week">📅 <span id="current-week-label">数据统计</span></div>
-      <div class="hero-title">共 <em id="total-videos">168</em> 条历史数据·累积追踪</div>
+      <div class="hero-title">共 <em id="total-videos">189</em> 条历史数据·累积追踪</div>
       <div style="font-size:12px;color:var(--text3);margin-top:6px">覆盖 1月—4月 · CN/US/HK/UK 四大市场</div>
     </div>
     <div class="hero-stats">
@@ -532,17 +532,32 @@ select.form-input option{background:var(--surface2)}
 
 <!-- ENTRY PAGE -->
 <div id="page-entry" class="page">
-  <div style="max-width:640px;margin:0 auto">
+  <div style="max-width:680px;margin:0 auto">
     <div style="margin-bottom:20px">
-      <div style="font-size:15px;font-weight:600;margin-bottom:4px">录入今日采集数据</div>
-      <div style="font-size:12px;color:var(--text3)">填写完毕后点击提交，数据将自动加入分析</div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px">录入数据</div>
+      <div style="font-size:12px;color:var(--text3)">内部视频和外部采集均在此录入，数据自动保存至数据库</div>
+    </div>
+
+    <div class="entry-section">
+      <div class="entry-section-title">数据类型</div>
+      <div style="display:flex;gap:10px">
+        <button onclick="setSourceType('external',this)" id="btn-external"
+          style="flex:1;padding:12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--accent);background:var(--accent);color:#fff;font-family:inherit;transition:.15s">
+          📡 外部采集<br><span style="font-size:10px;font-weight:400;opacity:.8">竞品账号爆款</span>
+        </button>
+        <button onclick="setSourceType('internal',this)" id="btn-internal"
+          style="flex:1;padding:12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:var(--surface2);color:var(--text2);font-family:inherit;transition:.15s">
+          🎬 内部视频<br><span style="font-size:10px;font-weight:400;opacity:.8">我们账号发布的视频</span>
+        </button>
+      </div>
+      <input type="hidden" id="e-source-type" value="external">
     </div>
 
     <div class="entry-section">
       <div class="entry-section-title">基本信息</div>
       <div class="form-row cols2">
         <div class="form-group">
-          <label class="form-label">采集日期 <span class="req">*</span></label>
+          <label class="form-label">日期 <span class="req">*</span></label>
           <input type="date" id="e-date" class="form-input">
         </div>
         <div class="form-group">
@@ -564,7 +579,7 @@ select.form-input option{background:var(--surface2)}
       </div>
       <div class="form-row cols2">
         <div class="form-group">
-          <label class="form-label">账号名称 <span class="req">*</span></label>
+          <label class="form-label" id="label-account">账号名称 <span class="req">*</span></label>
           <input type="text" id="e-account" class="form-input" placeholder="如：钟老师说留学">
         </div>
         <div class="form-group">
@@ -626,27 +641,46 @@ select.form-input option{background:var(--surface2)}
           <input type="text" id="e-finish" class="form-input" placeholder="如：25.5%">
         </div>
       </div>
+      <!-- 内部专属字段 -->
+      <div id="internal-fields" style="display:none">
+        <div class="form-row cols2">
+          <div class="form-group">
+            <label class="form-label">涨粉数</label>
+            <input type="number" id="e-fans" class="form-input num-input" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">咨询转化数</label>
+            <input type="number" id="e-consult" class="form-input num-input" placeholder="0">
+          </div>
+        </div>
+      </div>
       <div id="e-viral-hint" class="viral-hint">🔥 转发 ≥ 1000，已标记为爆款候选</div>
     </div>
 
     <div class="entry-section">
-      <div class="entry-section-title">内容分析</div>
+      <div class="entry-section-title">内容原文稿 <span style="font-size:10px;color:var(--text3);font-weight:400">（粘贴后AI自动提炼开头钩子和引流CTA）</span></div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">开头钩子（前3秒口播/大标题）</label>
-          <input type="text" id="e-hook" class="form-input" placeholder="如：上海这次是真的拼了，刚刚官宣…">
+          <textarea id="e-raw-script" class="form-input" rows="5" style="resize:vertical"
+            placeholder="把原文稿粘贴进来，系统会自动分析开头钩子和引流话术…"></textarea>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">引流CTA（结尾暗号/话术）</label>
-          <input type="text" id="e-cta" class="form-input" placeholder="如：评论区敲【沪】我直接发您">
-        </div>
+      <div id="ai-extract-result" style="display:none;margin-top:8px;padding:10px 12px;background:rgba(124,58,237,.06);border:1px dashed rgba(124,58,237,.2);border-radius:8px">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:6px;font-weight:500">✦ AI提炼结果</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:4px">开头钩子：<span id="ai-hook" style="color:var(--text)"></span></div>
+        <div style="font-size:11px;color:var(--text2)">引流CTA：<span id="ai-cta" style="color:var(--text)"></span></div>
       </div>
+      <button onclick="extractFromScript()" style="margin-top:8px;padding:6px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-family:inherit">
+        ✦ AI提炼开头钩子和CTA
+      </button>
+    </div>
+
+    <div class="entry-section">
+      <div class="entry-section-title">备注（选填）</div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">可复用点（选填）</label>
-          <textarea id="e-notes" class="form-input" rows="2" style="resize:vertical" placeholder="记录内容结构亮点、选题角度或创作心得…"></textarea>
+          <textarea id="e-notes" class="form-input" rows="2" style="resize:vertical"
+            placeholder="可复用点、内容亮点或创作心得…"></textarea>
         </div>
       </div>
     </div>
@@ -757,6 +791,28 @@ const HISTORY = [
   {date:'2026/1/11',topic:'留学生结局',region:'CN',title:'留学生回国最好的四种结局',play:63750,fans:30,consult:6,shares:2689,finish:16.97,hook:'留学生回国最好的四种结局',type:'传播'},
   {date:'2026/2/19',topic:'找工平台',region:'CN',title:'留学生高薪回国，就靠这几个平台，爸妈快记！',play:101141,fans:5,consult:1,shares:614,finish:32.25,hook:'就靠这几个平台',type:'传播'},
   {date:'2026/4/10',topic:'推荐信',region:'UK',title:'很多HR会通过求职信快速判断：你到底是不是认真申请这份工作的人',play:27686,fans:9,consult:4,shares:69,finish:32.71,hook:'HR快速判断你',type:'引流'},
+
+  {date:'2026/4/29',topic:'留学价值观',region:'CN',title:'留学到底有没有意义？北大教授谈留学要去看更大的世界',play:0,fans:0,consult:0,shares:14000,finish:0,hook:'北大教授：留学第一位是开眼界，英文是打开世界的窗户',type:'传播'},
+  {date:'2026/4/29',topic:'家长情感',region:'CN',title:'留学生勇闯世界的底牌：脚下是妈妈兜底的爱，肩上有妈妈托举的风',play:0,fans:0,consult:0,shares:42000,finish:0,hook:'留学生的家庭都有一个开朗的妈妈',type:'传播'},
+  {date:'2026/4/29',topic:'字节北美',region:'US',title:'字节跳动凌晨官宣！字节北美大量缺人 周受资喊话 年薪154万',play:0,fans:0,consult:0,shares:1197,finish:0,hook:'字节北美大量HC招25-28届留学生',type:'传播'},
+  {date:'2026/4/29',topic:'华裔CEO公司',region:'US',title:'美国留学生求职必看，英伟达Zoom DoorDash华人CEO公司青睐国人',play:0,fans:0,consult:0,shares:1704,finish:0,hook:'这三家顶尖公司华裔CEO对中国留学生特别友好',type:'传播'},
+  {date:'2026/4/29',topic:'宇树科技',region:'CN',title:'深夜官宣 宇树科技：缺人！优先考虑会英语的留学生 全球出货量第一人形机器人',play:0,fans:0,consult:0,shares:1814,finish:0,hook:'深夜官宣 宇树科技：缺人！',type:'传播'},
+  {date:'2026/4/29',topic:'香港身份',region:'US',title:'港府官宣：美国55所高校毕业生凭文凭拿香港身份 无需买房无需常住',play:0,fans:0,consult:0,shares:2494,finish:0,hook:'港府正式官宣美国高校毕业生可拿香港身份',type:'传播'},
+  {date:'2026/4/29',topic:'北美独角兽',region:'US',title:'3家北美独角兽扎堆抢人 Anthropic/Stripe/Databricks 年薪22万美元稳工签',play:0,fans:0,consult:0,shares:617,finish:0,hook:'别只盯着Google Meta，有三家独角兽正在疯狂招人',type:'传播'},
+  {date:'2026/4/28',topic:'AI商业分析',region:'US',title:'马斯克最新访谈xAI会成为超级印钞机 Optimus机器人是国运级变量',play:0,fans:0,consult:0,shares:6236,finish:0,hook:'马斯克近三小时访谈最感兴趣的三个话题',type:'传播'},
+  {date:'2026/4/28',topic:'家长故事',region:'US',title:'女儿在康奈尔读书 那250w买的不是那张文凭 而是给她的人生托个底',play:0,fans:0,consult:0,shares:79,finish:0,hook:'女儿拿到康奈尔offer那天，我哭得比她还凶',type:'引流'},
+  {date:'2026/4/28',topic:'留学生当领导',region:'CN',title:'留学生三条路回国当领导 国家安排了三条路子',play:0,fans:0,consult:0,shares:5040,finish:0,hook:'国家给留学生安排了三条路子当领导',type:'引流'},
+  {date:'2026/4/28',topic:'建档',region:'CN',title:'留学生海归回国找工作，这4个步骤千万不要忽略！',play:0,fans:0,consult:0,shares:3794,finish:0,hook:'留学生回国找工作90%家长忽略的4个关键步骤',type:'引流'},
+  {date:'2026/4/28',topic:'美国就业规划',region:'US',title:'寒窗12年竟回炉技校 AI时代学历为什么不够用了',play:0,fans:0,consult:0,shares:3179,finish:0,hook:'这两天有一则新闻，可能让很多中产家庭睡不着觉了',type:'传播'},
+  {date:'2026/4/28',topic:'在美中资',region:'US',title:'建议美国留学生都去投在美中资大厂 年薪直飙45万美元普通话流利直接进',play:0,fans:0,consult:0,shares:1091,finish:0,hook:'普通话流利直接进，中企出海留学生是核心人才',type:'传播'},
+  {date:'2026/4/27',topic:'美国城市',region:'US',title:'美国最舒服的城市之一西雅图：亚马逊微软总部，没有州税',play:0,fans:0,consult:0,shares:6492,finish:0,hook:'西雅图最打动我的是它的舒适感',type:'传播'},
+  {date:'2026/4/27',topic:'求职平台',region:'CN',title:'为什么85%的留学生回国找工作都进不去体制内？最稳妥的办法其实只有一个',play:0,fans:0,consult:0,shares:6889,finish:0,hook:'留学生想要进入体制内最稳的方法，其实只有一个',type:'引流'},
+  {date:'2026/4/27',topic:'国务院客户端',region:'CN',title:'留学生速看！别傻刷招聘软件，这个方法秒拿铁饭碗',play:0,fans:0,consult:0,shares:5630,finish:0,hook:'别傻刷招聘软件，登录国务院客户端好工作自动上门',type:'引流'},
+  {date:'2026/4/27',topic:'绿色通道',region:'CN',title:'2个求职绿色通道，国内生无报名资格',play:0,fans:0,consult:0,shares:3419,finish:0,hook:'有两个只对留学生开放的求职后门，国内学生连报名资格都没有',type:'引流'},
+  {date:'2026/4/27',topic:'联合国',region:'CN',title:'90%留学生不知道 进联合国工作最快的3个渠道在这',play:0,fans:0,consult:0,shares:3290,finish:0,hook:'进国际组织工作，渠道可是非常重要',type:'引流'},
+  {date:'2026/4/27',topic:'特斯拉',region:'US',title:'马斯克喊话中国留学生:你们的offer，我来承包! 特斯拉允许内部推荐入职',play:0,fans:0,consult:0,shares:3272,finish:0,hook:'马斯克喊话中国留学生：你们的Offer，我来承包！',type:'传播'},
+  {date:'2026/4/27',topic:'networking',region:'US',title:'想要留美就业其实方法不难 吃饭辅导情绪价值三法宝',play:0,fans:0,consult:0,shares:3585,finish:0,hook:'只要你真的想留下来，没有一个人是留不下来的',type:'传播'},
+  {date:'2026/4/27',topic:'四川人才引进',region:'CN',title:'四川抢疯了！QS前150免笔试 直接给编制+40万补贴',play:0,fans:0,consult:0,shares:1885,finish:0,hook:'留学生回国现在最香最稳的机会就在四川！',type:'引流'},
 ];
 
 // ─── ROUTING ────────────────────────────────────────────────────────────────
@@ -1051,6 +1107,8 @@ async function submitEntry(){
   const origText = btn ? btn.textContent : '';
   if(btn) { btn.textContent = '保存中…'; btn.disabled = true; }
 
+  const sourceType = document.getElementById('e-source-type')?.value || 'external';
+  const shares = parseInt(document.getElementById('e-shares')?.value)||0;
   const record = {
     date: document.getElementById('e-date')?.value || new Date().toLocaleDateString('zh-CN'),
     topic: document.getElementById('e-direction')?.value || '',
@@ -1058,29 +1116,34 @@ async function submitEntry(){
     title: document.getElementById('e-title')?.value || '',
     account: document.getElementById('e-account')?.value || '',
     play: parseInt(document.getElementById('e-play')?.value)||0,
-    fans: 0,
-    consult: 0,
-    shares: parseInt(document.getElementById('e-shares')?.value)||0,
+    fans: parseInt(document.getElementById('e-fans')?.value)||0,
+    consult: parseInt(document.getElementById('e-consult')?.value)||0,
+    shares: shares,
     likes: parseInt(document.getElementById('e-likes')?.value)||0,
     comments: parseInt(document.getElementById('e-comments')?.value)||0,
     finish_rate: document.getElementById('e-finish')?.value || '',
     duration: document.getElementById('e-duration')?.value || '',
     hook: document.getElementById('e-hook')?.value || '',
     cta: document.getElementById('e-cta')?.value || '',
-    content_type: (parseInt(document.getElementById('e-shares')?.value)||0) >= 1000 ? '传播' : '引流',
+    content_type: shares >= 1000 ? '传播' : '引流',
     collector: document.getElementById('e-collector')?.value || '',
-    notes: document.getElementById('e-notes')?.value || ''
+    notes: document.getElementById('e-notes')?.value || '',
+    source_type: sourceType,
+    raw_script: document.getElementById('e-raw-script')?.value || ''
   };
 
   try {
     const result = await sb.insert('videos', record);
     if(result && !result.error) {
       DB_VIDEOS.unshift({...record, id: Date.now(), created_at: new Date().toISOString()});
-      ['e-title','e-account','e-comments','e-likes','e-shares','e-duration','e-play','e-finish','e-hook','e-cta','e-notes'].forEach(id=>{
+      ['e-title','e-account','e-comments','e-likes','e-shares','e-duration','e-play','e-finish','e-hook','e-cta','e-notes','e-raw-script','e-fans','e-consult'].forEach(id=>{
         const el=document.getElementById(id);if(el)el.value='';
       });
       if(document.getElementById('e-collector')) document.getElementById('e-collector').value='';
       if(document.getElementById('e-direction')) document.getElementById('e-direction').value='';
+  const aiPanel = document.getElementById('ai-extract-result');
+  if(aiPanel) aiPanel.style.display='none';
+  setSourceType('external', document.getElementById('btn-external'));
       if(document.getElementById('e-viral-hint')) document.getElementById('e-viral-hint').style.display='none';
       const msg=document.getElementById('e-success');
       if(msg){msg.style.display='block'; setTimeout(()=>msg.style.display='none',4000);}
@@ -1546,6 +1609,99 @@ function renderIdeaContentFromList(dirs, idx) {
   `;
 }
 
+
+
+// ─── ENTRY FORM HELPERS ──────────────────────────────────────────────────────
+function setSourceType(type, btn) {
+  document.getElementById('e-source-type').value = type;
+  const extBtn = document.getElementById('btn-external');
+  const intBtn = document.getElementById('btn-internal');
+  const intFields = document.getElementById('internal-fields');
+  const accountLabel = document.getElementById('label-account');
+
+  if (type === 'external') {
+    extBtn.style.background = 'var(--accent)';
+    extBtn.style.color = '#fff';
+    extBtn.style.borderColor = 'var(--accent)';
+    intBtn.style.background = 'var(--surface2)';
+    intBtn.style.color = 'var(--text2)';
+    intBtn.style.borderColor = 'var(--border2)';
+    intFields.style.display = 'none';
+    if(accountLabel) accountLabel.innerHTML = '账号名称 <span class="req">*</span>';
+  } else {
+    intBtn.style.background = 'var(--accent3)';
+    intBtn.style.color = '#92400e';
+    intBtn.style.borderColor = 'var(--accent3)';
+    extBtn.style.background = 'var(--surface2)';
+    extBtn.style.color = 'var(--text2)';
+    extBtn.style.borderColor = 'var(--border2)';
+    intFields.style.display = 'block';
+    const eAccount = document.getElementById('e-account');
+    if(eAccount) eAccount.value = 'Jeff留学生求职咨询';
+    if(accountLabel) accountLabel.innerHTML = '账号名称';
+  }
+}
+
+async function extractFromScript() {
+  const script = document.getElementById('e-raw-script')?.value?.trim();
+  if (!script || script.length < 10) {
+    alert('请先粘贴原文稿内容');
+    return;
+  }
+
+  const btn = document.querySelector('button[onclick="extractFromScript()"]');
+  if(btn) { btn.textContent = '✦ 分析中…'; btn.disabled = true; }
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        messages: [{
+          role: 'user',
+          content: `你是一个新媒体运营分析师。从以下视频号口播稿中提炼两个内容：
+1. 开头钩子：视频前3秒的口播内容或核心标题（15字以内，要有冲击力）
+2. 引流CTA：结尾的引流话术，通常是"评论区敲XX发你XXX"这类格式
+
+只输出JSON，格式：{"hook":"开头钩子内容","cta":"引流话术内容"}
+如果找不到CTA就输出空字符串。
+
+原文稿：
+${script.slice(0,800)}`
+        }]
+      })
+    });
+
+    const data = await resp.json();
+    const text = data?.content?.[0]?.text || '';
+    const clean = text.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(clean);
+
+    document.getElementById('ai-hook').textContent = result.hook || '未识别到';
+    document.getElementById('ai-cta').textContent = result.cta || '未识别到CTA';
+    document.getElementById('ai-extract-result').style.display = 'block';
+
+    // Auto-fill hidden hook/cta for submission
+    if (!document.getElementById('e-hook')) {
+      const hookInput = document.createElement('input');
+      hookInput.type = 'hidden'; hookInput.id = 'e-hook'; hookInput.value = result.hook || '';
+      document.body.appendChild(hookInput);
+    } else { document.getElementById('e-hook').value = result.hook || ''; }
+
+    if (!document.getElementById('e-cta')) {
+      const ctaInput = document.createElement('input');
+      ctaInput.type = 'hidden'; ctaInput.id = 'e-cta'; ctaInput.value = result.cta || '';
+      document.body.appendChild(ctaInput);
+    } else { document.getElementById('e-cta').value = result.cta || ''; }
+
+  } catch(e) {
+    alert('AI分析失败，请手动填写或重试\n' + e.message);
+  } finally {
+    if(btn) { btn.textContent = '✦ AI提炼开头钩子和CTA'; btn.disabled = false; }
+  }
+}
 
 // ─── HISTORY TABS ────────────────────────────────────────────────────────────
 function switchHistoryTab(tab, btn) {
