@@ -317,25 +317,25 @@ select.form-input option{background:var(--surface2)}
     </div>
   </div>
 
-  <div class="kpi-grid">
+  <div class="kpi-grid" id="kpi-grid-dynamic">
     <div class="kpi">
       <div class="kpi-top"><span class="kpi-icon">📹</span><span class="kpi-badge nt">全周期</span></div>
-      <div class="kpi-num y">168</div>
+      <div class="kpi-num y" id="kpi-total">—</div>
       <div class="kpi-label">累积采集视频</div>
     </div>
     <div class="kpi">
       <div class="kpi-top"><span class="kpi-icon">🔥</span><span class="kpi-badge up">爆款</span></div>
-      <div class="kpi-num b">38</div>
-      <div class="kpi-label">播放量≥50万级内容</div>
+      <div class="kpi-num b" id="kpi-viral">—</div>
+      <div class="kpi-label">转发≥1000爆款内容</div>
     </div>
     <div class="kpi">
       <div class="kpi-top"><span class="kpi-icon">💬</span><span class="kpi-badge up">↑ 引流</span></div>
-      <div class="kpi-num o">25</div>
+      <div class="kpi-num o" id="kpi-consult">—</div>
       <div class="kpi-label">最高单条咨询转化</div>
     </div>
     <div class="kpi">
       <div class="kpi-top"><span class="kpi-icon">✨</span><span class="kpi-badge nt">双高</span></div>
-      <div class="kpi-num p">12</div>
+      <div class="kpi-num p" id="kpi-doublehigh">—</div>
       <div class="kpi-label">涨粉+咨询双高内容</div>
     </div>
   </div>
@@ -352,22 +352,9 @@ select.form-input option{background:var(--surface2)}
           </div>
           <div class="insight-time">每次更新数据后刷新</div>
         </div>
-        <div class="insight-text">
-          你们账号有三种内容类型，底层逻辑完全不同：<strong>传播型</strong>（建档48万播）靠信息差驱动，<strong>引流型</strong>（在华欧企25咨询）靠痛点驱动，<strong>双高型</strong>（英国商会70涨粉30咨询）是最稀缺的。<br><br>
-          目前最大的机会缺口：<strong>英/澳方向严重供给不足</strong>——LSE家长系列单条30+咨询，是全账号咨询效率最高的内容，但此方向内容占比不到10%。<strong>建议下周重点补齐英澳向内容</strong>。<br><br>
-          已验证的最强标题公式：带"凌晨官宣""忽然""刚刚"的内容，播放量比同类题材高35%。"X%的留学生不知道"系列转发持续稳定。
-        </div>
-        <div class="highlights">
-          <div class="hl"><div class="hl-icon">🎯</div><div class="hl-text"><strong>最高ROI方向：</strong>英国商会 · 30咨询/7万播，是全账号咨询转化率第一</div></div>
-          <div class="hl"><div class="hl-icon">⚡</div><div class="hl-text"><strong>待补缺口：</strong>英澳方向内容不足，UK市场咨询转化远高于CN市场</div></div>
-          <div class="hl"><div class="hl-icon">📌</div><div class="hl-text"><strong>本周可立刻用的选题：</strong>建档系列（需求持续旺盛）、在华欧企系列（转化稳定）</div></div>
-        </div>
-        <div class="insight-tags" style="margin-top:12px">
-          <span class="insight-tag">英澳补仓优先</span>
-          <span class="insight-tag">建档系列持续</span>
-          <span class="insight-tag">凌晨官宣公式</span>
-          <span class="insight-tag">✦ AI分析</span>
-        </div>
+        <div class="insight-text" id="dynamic-insight-text">计算中…</div>
+        <div class="highlights" id="dynamic-highlights"></div>
+        <div class="insight-tags" style="margin-top:12px" id="dynamic-insight-tags"></div>
       </div>
 
       <!-- QUICK TOP5 -->
@@ -393,18 +380,18 @@ select.form-input option{background:var(--surface2)}
         <div class="section-head">
           <div><div class="section-title">内容功能分布</div><div class="section-sub">传播型 vs 引流型 vs 双高型</div></div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;flex-direction:column;gap:8px" id="type-dist-dynamic">
           <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
             <div><span class="type-双高">双高型</span><div style="font-size:10px;color:var(--text3);margin-top:3px">涨粉+咨询同时高</div></div>
-            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent)">12条</div><div style="font-size:10px;color:var(--text3)">最值得复刻</div></div>
+            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent)" id="type-count-双高">—</div><div style="font-size:10px;color:var(--text3)">最值得复刻</div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
             <div><span class="type-引流">引流型</span><div style="font-size:10px;color:var(--text3);margin-top:3px">咨询转化率高</div></div>
-            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent3)">34条</div><div style="font-size:10px;color:var(--text3)">核心商业价值</div></div>
+            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent3)" id="type-count-引流">—</div><div style="font-size:10px;color:var(--text3)">核心商业价值</div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
             <div><span class="type-传播">传播型</span><div style="font-size:10px;color:var(--text3);margin-top:3px">播放/转发量高</div></div>
-            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent2)">58条</div><div style="font-size:10px;color:var(--text3)">涨粉破圈工具</div></div>
+            <div style="text-align:right"><div class="mono" style="font-size:14px;font-weight:500;color:var(--accent2)" id="type-count-传播">—</div><div style="font-size:10px;color:var(--text3)">涨粉破圈工具</div></div>
           </div>
         </div>
       </div>
@@ -840,6 +827,35 @@ function typeClass(t){return'type-'+(t||'传播')}
 
 // ─── DASHBOARD ──────────────────────────────────────────────────────────────
 function renderDashboard(){
+  // ── Live KPI update ─────────────────────────────────────────────────────
+  if(HISTORY.length > 0) {
+    const viral = HISTORY.filter(d=>(d.shares||0)>=1000).length;
+    const maxConsult = Math.max(...HISTORY.map(d=>d.consult||0));
+    const doubleHigh = HISTORY.filter(d=>(d.fans||0)>=20&&(d.consult||0)>=5).length;
+    const chuanbo = HISTORY.filter(d=>d.type==='传播'||(d.shares||0)>=1000&&(d.consult||0)<5).length;
+    const yinliu = HISTORY.filter(d=>d.type==='引流'||(d.consult||0)>=5&&(d.fans||0)<20).length;
+
+    const setEl = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+    setEl('kpi-total', HISTORY.length);
+    setEl('kpi-viral', viral);
+    setEl('kpi-consult', maxConsult);
+    setEl('kpi-doublehigh', doubleHigh);
+    setEl('type-count-双高', doubleHigh+'条');
+    setEl('type-count-引流', yinliu+'条');
+    setEl('type-count-传播', chuanbo+'条');
+    setEl('total-videos', HISTORY.length);
+
+    // Hero stats
+    const maxPlay = Math.max(...HISTORY.map(d=>d.play||0));
+    const maxFans = Math.max(...HISTORY.map(d=>d.fans||0));
+    const heroG = document.querySelector('.hero-stat-num.g');
+    const heroB = document.querySelector('.hero-stat-num.b');
+    const heroO = document.querySelector('.hero-stat-num.o');
+    if(heroG) heroG.textContent = maxPlay>=10000?(maxPlay/10000).toFixed(0)+'万':maxPlay.toLocaleString();
+    if(heroB) heroB.textContent = maxFans;
+    if(heroO) heroO.textContent = maxConsult;
+  }
+
   // top5 by consult
   const top5 = [...HISTORY].sort((a,b)=>b.consult-a.consult).slice(0,5);
   const el = document.getElementById('dashboard-top5');
@@ -860,7 +876,51 @@ function renderDashboard(){
     </div>`
   }).join('');
 
-  // direction quick
+  // ── Compute live insights ──────────────────────────────────────────────
+  const insightEl = document.getElementById('dynamic-insight-text');
+  const hlEl = document.getElementById('dynamic-highlights');
+  const tagEl = document.getElementById('dynamic-insight-tags');
+  if(insightEl && HISTORY.length > 0) {
+    // Top consult topic
+    const topicConsult = {};
+    const topicFans = {};
+    const topicPlay = {};
+    const topicCount = {};
+    HISTORY.forEach(d => {
+      const t = d.topic||'其他';
+      topicConsult[t] = (topicConsult[t]||0) + (d.consult||0);
+      topicFans[t] = (topicFans[t]||0) + (d.fans||0);
+      topicPlay[t] = (topicPlay[t]||0) + (d.play||0);
+      topicCount[t] = (topicCount[t]||0) + 1;
+    });
+    const topConsultTopic = Object.entries(topicConsult).sort((a,b)=>b[1]-a[1])[0];
+    const topFansTopic = Object.entries(topicFans).sort((a,b)=>b[1]-a[1])[0];
+    const topSharesItem = [...HISTORY].sort((a,b)=>(b.shares||0)-(a.shares||0))[0];
+    const totalConsult = HISTORY.reduce((s,d)=>s+(d.consult||0),0);
+    const totalFans = HISTORY.reduce((s,d)=>s+(d.fans||0),0);
+    const viralCount = HISTORY.filter(d=>(d.shares||0)>=1000).length;
+    const doubleHigh = HISTORY.filter(d=>(d.fans||0)>=20&&(d.consult||0)>=5).length;
+    const usCount = HISTORY.filter(d=>d.region==='US'||d.region==='UK').length;
+    const usRatio = Math.round(usCount/HISTORY.length*100);
+
+    insightEl.innerHTML = `
+      共 <strong>${HISTORY.length}</strong> 条数据，累计咨询 <strong>${totalConsult}</strong>，累计涨粉 <strong>${totalFans}</strong>，爆款内容（转发≥1000）<strong>${viralCount}</strong> 条，双高内容 <strong>${doubleHigh}</strong> 条。<br><br>
+      <strong>咨询效率最高方向：${topConsultTopic?.[0]||'—'}</strong>，累计带来 ${topConsultTopic?.[1]||0} 次咨询。<strong>涨粉效率最高：${topFansTopic?.[0]||'—'}</strong>，累计涨粉 ${topFansTopic?.[1]||0}。<br><br>
+      英美英澳方向内容占比 <strong>${usRatio}%</strong>，历史验证带来最高咨询转化，是核心增长赛道。已验证最强标题公式：带"凌晨官宣""忽然""刚刚"的内容播放量高35%。`;
+
+    hlEl.innerHTML = `
+      <div class="hl"><div class="hl-icon">🎯</div><div class="hl-text"><strong>最高咨询方向：</strong>${topConsultTopic?.[0]||'—'} · 累计 ${topConsultTopic?.[1]||0} 次咨询</div></div>
+      <div class="hl"><div class="hl-icon">📈</div><div class="hl-text"><strong>最高涨粉方向：</strong>${topFansTopic?.[0]||'—'} · 累计涨粉 ${topFansTopic?.[1]||0}</div></div>
+      <div class="hl"><div class="hl-icon">⚡</div><div class="hl-text"><strong>历史最高转发：</strong>${topSharesItem?.title?.slice(0,20)||'—'}… · 转发 ${(topSharesItem?.shares||0).toLocaleString()}</div></div>`;
+
+    tagEl.innerHTML = `
+      <span class="insight-tag">共${HISTORY.length}条数据</span>
+      <span class="insight-tag">爆款${viralCount}条</span>
+      <span class="insight-tag">双高${doubleHigh}条</span>
+      <span class="insight-tag">✦ 实时计算</span>`;
+  }
+
+  // ── direction quick
   const dirs = {};
   HISTORY.forEach(d=>{
     if(!dirs[d.topic]) dirs[d.topic]={fans:0,consult:0,cnt:0};
@@ -1135,7 +1195,17 @@ async function submitEntry(){
   try {
     const result = await sb.insert('videos', record);
     if(result && !result.error) {
+      // Add to in-memory HISTORY immediately so analysis updates right away
+      const newItem = {
+        date: record.date, topic: record.topic, region: record.region,
+        title: record.title, play: record.play, fans: record.fans,
+        consult: record.consult, shares: record.shares, finish: parseFloat(record.finish_rate)||0,
+        hook: record.hook, type: record.content_type, collector: record.collector,
+        account: record.account, source_type: record.source_type
+      };
+      HISTORY.unshift(newItem);
       DB_VIDEOS.unshift({...record, id: Date.now(), created_at: new Date().toISOString()});
+      refreshAllModules();
       ['e-title','e-account','e-comments','e-likes','e-shares','e-duration','e-play','e-finish','e-hook','e-cta','e-notes','e-raw-script','e-fans','e-consult'].forEach(id=>{
         const el=document.getElementById(id);if(el)el.value='';
       });
@@ -1752,53 +1822,99 @@ async function renderEntries() {
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
+// ─── REALTIME DATA ENGINE ────────────────────────────────────────────────────
+// Converts a DB record to the HISTORY format used by all render functions
+function dbToHistory(d) {
+  return {
+    date: d.date || '',
+    topic: d.topic || '',
+    region: d.region || 'CN',
+    title: d.title || '',
+    play: d.play || 0,
+    fans: d.fans || 0,
+    consult: d.consult || 0,
+    shares: d.shares || 0,
+    finish: parseFloat(d.finish_rate) || 0,
+    hook: d.hook || '',
+    type: d.content_type || '传播',
+    collector: d.collector || '',
+    account: d.account || '',
+    source_type: d.source_type || 'external'
+  };
+}
+
+// Merges DB data into HISTORY array, deduplicating by title
+function mergeIntoHistory(dbRecords) {
+  const dbFormatted = dbRecords.map(dbToHistory);
+  const dbTitles = new Set(dbRecords.map(d => d.title));
+  const localOnly = HISTORY.filter(h => !dbTitles.has(h.title));
+  HISTORY.length = 0;
+  dbFormatted.forEach(d => HISTORY.push(d));
+  localOnly.forEach(d => HISTORY.push(d));
+}
+
+// Re-renders all analysis modules with current HISTORY data
+function refreshAllModules() {
+  // Update counts
+  const totalEl = document.getElementById('total-videos');
+  if(totalEl) totalEl.textContent = HISTORY.length;
+  const sub = document.getElementById('history-count-sub');
+  if(sub) sub.textContent = `共 ${HISTORY.length} 条记录 · 实时同步自数据库`;
+
+  // Update hero stats
+  const maxPlay = Math.max(...HISTORY.map(d=>d.play||0));
+  const maxFans = Math.max(...HISTORY.map(d=>d.fans||0));
+  const maxConsult = Math.max(...HISTORY.map(d=>d.consult||0));
+  const heroG = document.querySelector('.hero-stat-num.g');
+  const heroB = document.querySelector('.hero-stat-num.b');
+  const heroO = document.querySelector('.hero-stat-num.o');
+  if(heroG) heroG.textContent = maxPlay >= 10000 ? (maxPlay/10000).toFixed(0)+'万' : maxPlay.toLocaleString();
+  if(heroB) heroB.textContent = maxFans;
+  if(heroO) heroO.textContent = maxConsult;
+
+  // Update KPI cards dynamically
+  const viralCount = HISTORY.filter(d=>(d.shares||0)>=1000).length;
+  const kpiNums = document.querySelectorAll('.kpi-num');
+  if(kpiNums[0]) kpiNums[0].textContent = HISTORY.length;
+  if(kpiNums[1]) kpiNums[1].textContent = viralCount;
+
+  // Re-render all active modules
+  renderDashboard();
+  const activePage = document.querySelector('.page.active');
+  if(activePage) {
+    const id = activePage.id;
+    if(id==='page-toplist') renderTopList(currentTopSort||'consult');
+    if(id==='page-analysis') renderAnalysis();
+    if(id==='page-formulas') renderFormulas();
+    if(id==='page-schedule') renderSchedule();
+    if(id==='page-history') renderHistory('');
+  }
+}
+
 async function initApp() {
-  // Show loading state
   const weekLabel = document.getElementById('current-week-label');
   if(weekLabel) weekLabel.textContent = new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long'});
 
-  // Update sync pill
   const pill = document.querySelector('.sync-pill');
-  if(pill) pill.innerHTML = '<div class="pulse"></div>连接数据库中…';
+  if(pill) pill.innerHTML = '<div class="pulse"></div>连接数据库…';
 
-  // Load from Supabase then seed if empty
+  // Step 1: render immediately with local data so page isn't blank
+  refreshAllModules();
+
+  // Step 2: load from Supabase
   await loadDBVideos();
   await seedIfEmpty();
 
-  // If DB loaded successfully, merge with local HISTORY for display
+  // Step 3: merge DB data and re-render everything
   if(DB_LOADED && DB_VIDEOS.length > 0) {
-    // Convert DB records to HISTORY format for rendering
-    const dbFormatted = DB_VIDEOS.map(d => ({
-      date: d.date || '',
-      topic: d.topic || '',
-      region: d.region || 'CN',
-      title: d.title || '',
-      play: d.play || 0,
-      fans: d.fans || 0,
-      consult: d.consult || 0,
-      shares: d.shares || 0,
-      finish: parseFloat(d.finish_rate) || 0,
-      hook: d.hook || '',
-      type: d.content_type || '传播',
-      collector: d.collector || '',
-      account: d.account || ''
-    }));
-    // Merge: DB records + any HISTORY items not in DB
-    const dbTitles = new Set(DB_VIDEOS.map(d => d.title));
-    const localOnly = HISTORY.filter(h => !dbTitles.has(h.title));
-    HISTORY.length = 0;
-    dbFormatted.forEach(d => HISTORY.push(d));
-    localOnly.forEach(d => HISTORY.push(d));
-    if(pill) pill.innerHTML = '<div class="pulse"></div>已同步 · ' + HISTORY.length + '条数据';
+    mergeIntoHistory(DB_VIDEOS);
+    if(pill) pill.innerHTML = '<div class="pulse"></div>已同步 · ' + HISTORY.length + '条';
   } else {
     if(pill) pill.innerHTML = '<div class="pulse"></div>本地数据 · ' + HISTORY.length + '条';
   }
 
-  // Update total count display
-  const totalEl = document.getElementById('total-videos');
-  if(totalEl) totalEl.textContent = HISTORY.length;
-
-  renderDashboard();
+  // Step 4: re-render all modules with merged data
+  refreshAllModules();
   initEntry();
 }
 
