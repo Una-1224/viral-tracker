@@ -53,6 +53,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .page{display:none;padding:24px 32px 48px;animation:fadeIn .2s ease}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
 /* HERO */
 .hero{display:flex;align-items:flex-end;justify-content:space-between;padding:20px 0 28px;border-bottom:1px solid var(--border)}
@@ -406,6 +407,7 @@ select.form-input option{background:var(--surface2)}
     <div class="section-ctrl">
       <button class="ctrl-btn active" onclick="switchTopSort('consult',this)">按咨询量</button>
       <button class="ctrl-btn" onclick="switchTopSort('share',this)">按转发量</button>
+      <button class="ctrl-btn" onclick="switchTopSort('comment',this)">按评论量</button>
       <button class="ctrl-btn" onclick="switchTopSort('play',this)">按播放量</button>
     </div>
   </div>
@@ -504,8 +506,8 @@ select.form-input option{background:var(--surface2)}
       <table class="data-table" id="history-table">
         <thead>
           <tr>
-            <th>日期</th><th>选题</th><th>地区</th><th>标题</th>
-            <th>播放量</th><th>涨粉</th><th>咨询</th><th>分享</th><th>完播率</th><th>类型</th>
+            <th>日期</th><th>选题</th><th>地区</th><th>账号</th><th>标题</th>
+            <th>转发</th><th>评论</th><th>涨粉</th><th>咨询</th><th>类型</th>
           </tr>
         </thead>
         <tbody id="history-tbody"></tbody>
@@ -585,14 +587,12 @@ select.form-input option{background:var(--surface2)}
           <label class="form-label">内容方向</label>
           <select id="e-direction" class="form-input">
             <option value="">选择方向</option>
-            <option>上海人才引进</option><option>建档/学历认证</option>
-            <option>校招时间误区</option><option>央企出海</option>
-            <option>深圳人才引进</option><option>大厂校招</option>
-            <option>金融机构</option><option>在华欧企</option>
-            <option>AI时代职场</option><option>家长故事</option>
-            <option>求职平台</option><option>香港招聘</option>
-            <option>北美校招</option><option>国际组织</option>
-            <option>大使馆</option><option>招聘会</option><option>其他</option>
+            <option>求职</option>
+            <option>政策</option>
+            <option>故事</option>
+            <option>招聘会</option>
+            <option>国际组织</option>
+            <option>其他</option>
           </select>
         </div>
       </div>
@@ -966,25 +966,38 @@ function renderTopList(sort){
   const el = document.getElementById('full-toplist');
   if(!el)return;
   el.innerHTML = sorted.map((d,i)=>{
-    const mainNum = sort==='consult'?d.consult:sort==='share'?d.shares:d.play;
-    const mainLabel = sort==='consult'?'咨询':sort==='share'?'转发':'播放';
+    const mainNum = sort==='consult'?d.consult:sort==='share'?d.shares:sort==='comment'?(d.comments||0):d.play;
+    const mainLabel = sort==='consult'?'咨询':sort==='share'?'转发':sort==='comment'?'评论':'播放';
     const rc = regionTag(d.region).split(' ');
-    return`<div class="top-item">
-      <div class="top-rank ${i===0?'r1':i===1?'r2':i===2?'r3':''}">${String(i+1).padStart(2,'0')}</div>
-      <div class="top-info">
-        <div class="top-title">${d.title}</div>
-        <div class="top-meta">
-          <span class="tag ${rc[0]}">${rc[1]}</span>
-          <span class="${typeClass(d.type)}">${d.type}</span>
-          <span class="top-account">${d.topic} · ${d.date}</span>
+    const hasHook = d.hook && d.hook.length > 2;
+    const hasScript = d.script && d.script.length > 5;
+    const sid = 'sc'+i+Math.random().toString(36).slice(2,5);
+    return`<div class="top-item" style="flex-direction:column;align-items:stretch;gap:0;padding:0;cursor:default">
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px">
+        <div class="top-rank ${i===0?'r1':i===1?'r2':i===2?'r3':''}" style="margin-top:2px">${String(i+1).padStart(2,'0')}</div>
+        <div class="top-info" style="flex:1;min-width:0">
+          <div class="top-title" style="white-space:normal;line-height:1.5;font-size:12px;font-weight:600">${d.title}</div>
+          <div class="top-meta" style="margin-top:5px;gap:6px">
+            <span class="tag ${rc[0]}">${rc[1]}</span>
+            <span class="${typeClass(d.type)}">${d.type}</span>
+            <span style="font-size:10px;color:var(--text2);font-weight:500">${d.account||''}</span>
+            <span class="top-account">${d.date}</span>
+          </div>
+          ${hasHook?`<div style="font-size:10px;color:var(--accent);margin-top:5px;padding:3px 8px;background:rgba(124,58,237,.06);border-radius:4px;border-left:2px solid var(--accent)">🎣 ${d.hook}</div>`:''}
+        </div>
+        <div class="top-nums" style="flex-shrink:0;min-width:52px">
+          <div class="top-main-num">${fmt(mainNum)}</div>
+          <div class="top-main-label">${mainLabel}</div>
+          <div class="top-side-num" style="margin-top:2px">转${fmt(d.shares)}</div>
+          <div class="top-side-num">评${d.comments||0}</div>
+          ${(d.consult||0)>0?`<div class="top-side-num" style="color:var(--accent3)">咨${d.consult}</div>`:''}
         </div>
       </div>
-      <div class="top-nums">
-        <div class="top-main-num">${fmt(mainNum)}</div>
-        <div class="top-main-label">${mainLabel}</div>
-        <div class="top-side-num">涨粉${d.fans} / 咨询${d.consult}</div>
-      </div>
-    </div>`
+      ${hasScript?`<div style="padding:0 14px 10px 46px">
+        <span onclick="toggleScript('${sid}')" style="cursor:pointer;font-size:10px;color:var(--accent2);font-weight:500">▶ 展开全文稿</span>
+        <div id="${sid}" style="display:none;margin-top:6px;font-size:11px;color:var(--text2);line-height:1.8;background:var(--surface2);padding:10px 12px;border-radius:6px;max-height:180px;overflow-y:auto;white-space:pre-wrap;border-left:2px solid var(--border2)">${d.script}</div>
+      </div>`:''}
+    </div>\`
   }).join('');
 }
 
@@ -1054,24 +1067,40 @@ function renderAnalysis(){
 // ─── FORMULAS ────────────────────────────────────────────────────────────────
 function renderFormulas(){
   const titleFormulas = [
-    {num:'公式01',name:'凌晨官宣型',code:'[权威机构]凌晨官宣：缺留学生',eg:'字节凌晨通知：全球涨薪，缺留学生 → 21万播',avg:'均播放 12万+'},
-    {num:'公式02',name:'认知纠偏型',code:'X%的留学生都不知道，[真正重要的事]',eg:'90%的留学生都不知道，海投1000份没有这事重要 → 3547转发',avg:'均转发 2000+'},
-    {num:'公式03',name:'官方大招型',code:'[城市/机构]官宣！[利益]+[身份限定]',eg:'重磅！南京启动引才计划，留学生直接拿40W → 12咨询',avg:'均咨询 8+'},
-    {num:'公式04',name:'归宿型',code:'[时间节点]留学生最好的归宿，是去[具体机会]',eg:'留学生春节前最好的归宿，是去参加香港招聘会 → 50涨粉',avg:'均涨粉 30+'},
-    {num:'公式05',name:'忽然型',code:'[机构]忽然[动作]？',eg:'香港生产力局忽然要招留学生？ → 11涨粉3咨询',avg:'完播率高'},
-    {num:'公式06',name:'家长故事型',code:'[自谦降维开头]+[孩子的成功结果]',eg:'从来没进过投行办公室，借着女儿的光来参观了 → 70涨粉30咨询',avg:'咨询转化最强'},
+    {num:'公式01',name:'凌晨官宣型',code:'[权威机构]凌晨/深夜官宣：[紧缺/动作]',
+     examples:['字节凌晨通知：全球涨薪，缺留学生 → 21万播','国家电网凌晨官宣：缺留学生 → 10万播','深夜官宣：华为国际部缺留学生 → 8万播','张一鸣凌晨官宣：缺留学生 → 18万播','中金凌晨官宣：缺留学生 → 转发857'],avg:'均播放 8万+，完播率>20%'},
+    {num:'公式02',name:'认知纠偏型',code:'X%的[受众]都不知道，[反直觉真相]',
+     examples:['90%的留学生都不知道，海投1000份没有这事重要 → 3547转发','90%的家长都不知道，大使馆进入有四大捷径 → 11咨询','95%的留学生都是这么当上国际公务员的 → 30咨询','85%的留学生回国找工作都进不去体制内 → 6889转发','只有10%的留学生知道这个进体制的绿色通道 → 3419转发'],avg:'均转发 2000+，引流极强'},
+    {num:'公式03',name:'官方大招型',code:'重磅/刚刚！[城市/机构]+[具体利益]+[身份限定]',
+     examples:['重磅！南京启动引才计划，留学生直接拿40W → 12咨询','上海这次是真的拼了！刚刚官宣2026留学生人才引进计划 → 4338转发','刚刚，四川多地发布26年引进留学生公告 → 167286播','浙江官宣，开放海归人才支持计划！ → 1136转发','北京正式官宣开启26年海归人才引进计划 → 93咨询'],avg:'均咨询 5+，城市方向核心公式'},
+    {num:'公式04',name:'归宿型',code:'[时间节点]留学生最好的归宿，是去[具体机会]',
+     examples:['留学生春节前最好的归宿，是去参加香港招聘会 → 50涨粉20咨询','春节后留学生最好的归宿是去投在华欧企 → 40涨粉15咨询','留学生回国最好的三种归宿 → 14404播放','留学生春节后最好的归宿是去投这四家在港央企 → 10咨询','聪明的留学生回国最好的三种归宿，就是走这三条绿色通道 → 1076转发'],avg:'均涨粉 25+'},
+    {num:'公式05',name:'忽然/突然型',code:'[机构]忽然/突然[动作]？',
+     examples:['香港生产力局忽然要招留学生？ → 11涨粉3咨询','太突然了！香港现在新放出一大批冷门铁饭碗 → 1235转发','上面这个新动作，让海归身份突然值钱了 → 1797转发','突发！京东和小米抢夺留学人才 → 4145转发','突然放水，留学生最容易进的在港央企 → 77转发'],avg:'完播率高，适合时效选题'},
+    {num:'公式06',name:'家长故事型',code:'[自谦降维]+[孩子成果]，[感悟提炼]',
+     examples:['从来没来过投行办公室，借着女儿的光来参观了 → 70涨粉30咨询','女儿在康奈尔读书，那250w买的不是文凭而是给她人生托个底 → 高评论','留学生的家庭都有一个开朗的妈妈 → 42000转发','女儿大二就拿了Citadel的offer，我们做对了什么 → 高咨询','送孩子去英国读研，花了150万，现在后悔了吗 → 高完播'],avg:'咨询转化最强，引流私域最佳'},
   ];
   const hookFormulas = [
-    {num:'钩子01',name:'数字冲击开头',code:'[具体数字]的[受众]+都[犯了/不知道/在做]的[错误]',eg:'90%的留学生都不知道，海投1000份简历都没有这事重要！',avg:'适合信息差选题'},
-    {num:'钩子02',name:'官方动作开头',code:'刚刚/凌晨/深夜，[权威机构]+官宣/通知+[与你的关系]',eg:'国资委刚成立的这个新机构，和留学生的关系太大了',avg:'完播率普遍>30%'},
-    {num:'钩子03',name:'反向开头',code:'留学生/家长[反直觉行为]，其实[真相]',eg:'越没背景的留学生越能进国际组织',avg:'转发率高'},
-    {num:'钩子04',name:'家长第一视角',code:'[自谦/意外场景]+[事件]',eg:'从来没来过投行办公室，借着女儿的光来参观了',avg:'咨询转化最强'},
+    {num:'钩子01',name:'数字冲击',code:'[高比例数字]+[受众]+[不知道/做错了]+[结果]',
+     examples:['90%的留学生都不知道，海投1000份简历都没有这事重要！','95%的留学生都不知道，孩子进大使馆的四大捷径','85%的留学生回国找工作都进不去体制内，最稳妥的办法只有一个','只有1%的留学生知道，在华欧企才是最适合留学生的一条路','仅5%海归了解，4月免笔试企业高达125家，谁投谁赚'],avg:'适合信息差选题，开头就制造焦虑'},
+    {num:'钩子02',name:'官方动作',code:'刚刚/凌晨/深夜，[权威机构]+官宣/通知+[与你的切身关系]',
+     examples:['国资委刚成立的这个新机构，和留学生的关系太大了','张一鸣凌晨官宣：国际事业部缺人，留学生年薪70w','国家电网凌晨官宣：缺留学生','这两天有一则新闻，可能让很多中产家庭睡不着觉了','上面这个新动作，让海归身份突然值钱了'],avg:'完播率普遍>25%，时效选题必用'},
+    {num:'钩子03',name:'反向反直觉',code:'[表面普遍认知]，其实[真相]——或 越[反直觉条件]越[结果]',
+     examples:['越没背景的留学生越能进国际组织','海归回国千万别卷大厂，真的最亏！','留学生别再海投，最稳的求职方式就是内部推荐','聪明的家庭已经让留学生走内部通道了','比大使馆还香！3个留学生小众高端岗，99%的人不知道'],avg:'转发率高，认知冲突触发分享'},
+    {num:'钩子04',name:'家长视角',code:'[家长自谦/意外场景]+[孩子的结果]，引出感悟',
+     examples:['从来没来过投行办公室，借着女儿的光来参观了','说起来有点不好意思，女儿拿到康奈尔offer那天我哭得比她还凶','我一个普通妈妈，是怎么帮孩子找到中金内推通道的','女儿大二拿下Citadel offer，我才知道顶尖公司从大一就开始抢人','孩子不肯找我帮忙，但这件事我还是默默做了，值了'],avg:'咨询转化最强，完播率最高'},
+    {num:'钩子05',name:'紧迫催促',code:'就在[明天/本周/后天]！[稀缺机会]+[错过代价]',
+     examples:['就在明天！上海史上最高含金量招聘会，进场年薪直顶60万','后天上海有留学生招聘会！可以预约啦','香港暑期实习倒计时！超高转正率，27届留学生必冲','4月免笔试央国企合集，谁投谁赚！仅5%海归了解','北京连开3场留学生招聘会！2026届海归春招上岸最后窗口期'],avg:'招聘会/时效内容首选公式'},
   ];
   const ctaFormulas = [
-    {num:'CTA01',name:'关键词暗号型',code:'评论区敲【[关键词]】，我[把XX发给你]',eg:'评论区敲【沪】，我直接发您报名入口和岗位详情',avg:'转化率最高，可量化'},
-    {num:'CTA02',name:'1v1分析型',code:'留言[孩子的学校+专业]，我来帮孩子1对1分析',eg:'留言孩子的【学校+专业】，帮你看看最适合哪个央企机会',avg:'适合高客单价转化'},
-    {num:'CTA03',name:'资料包型',code:'[强调稀缺]+敲[暗号]+[我免费发你]',eg:'只有10%的人知道，敲【所】发您岗位详情',avg:'稀缺感驱动评论'},
-    {num:'CTA04',name:'群引流型',code:'[身份认同]+欢迎加入[专属群]',eg:'LSE家长进，欢迎讨论孩子的就业信息差',avg:'适合引流私域'},
+    {num:'CTA01',name:'关键词暗号型',code:'评论区敲【[1-3字关键词]】，我[立刻/直接]发您[具体资料]',
+     examples:['评论区敲【沪】，我直接发您报名入口和岗位详情','留言【宇树】发你笔面试真题+1V1求职辅导','敲【所】，发您岗位详情和报名入口','评论区敲【苏】，报名入口和具体岗位清单我都整理好了','想知道的敲【建档】，我1对1教您建档全流程'],avg:'转化率最高，可精准量化评论数'},
+    {num:'CTA02',name:'1v1分析型',code:'留言[孩子的学校+专业/背景]，我来帮孩子[1对1分析/判断]',
+     examples:['留言孩子的【学校+专业】，帮你看看最适合哪个央企机会','想知道你家孩子适合哪个央企境外机会，留言学校加专业','留言【学校+方向】，我来分析孩子最适合哪条路','评论区说说你的背景，我来帮你判断一下','说说孩子的情况，我帮你一对一规划'],avg:'适合高客单价咨询转化'},
+    {num:'CTA03',name:'资料包稀缺型',code:'只有[X%]的人知道，敲[暗号]免费发你[具体内容]',
+     examples:['只有10%的留学生知道，敲【所】发您岗位详情','仅5%海归了解，敲【1】发你报名入口+笔面资料','我整理了完整名单，评论区敲【欧企】无偿发你','评论区扣【2】，我发你专属直推通道','需要的家长敲【独角兽】，我发您申请入口'],avg:'稀缺感强，驱动立刻行动'},
+    {num:'CTA04',name:'群引流型',code:'[身份认同]+欢迎加入[专属群]，一起[共同目标]',
+     examples:['LSE家长进，欢迎讨论孩子的就业信息差','英国G5院校家长群，欢迎您的加入','NYU家长进，一起帮孩子打破找工信息差','想进群的评论区敲【家长】我发您资料','有同款担心的家长欢迎加入我们这个群'],avg:'适合引流私域，适合家长群运营'},
   ];
 
   const renderGrid = (id,data)=>{
@@ -1081,8 +1110,14 @@ function renderFormulas(){
       <div class="formula-num">${f.num}</div>
       <div class="formula-name">${f.name}</div>
       <div class="formula-code">${f.code}</div>
-      <div class="formula-eg"><strong>验证案例：</strong>${f.eg}</div>
-      <div class="formula-avg">效果参考：<strong>${f.avg}</strong></div>
+      <div class="formula-eg" style="margin-top:8px">
+        <div style="font-size:10px;color:var(--text3);font-weight:600;margin-bottom:5px;letter-spacing:.3px">验证案例</div>
+        ${(f.examples||[f.eg]).map((e,i)=>`<div style="display:flex;gap:6px;margin-bottom:4px;align-items:flex-start">
+          <span style="width:14px;height:14px;border-radius:3px;background:${i===0?'var(--accent3)':'var(--surface2)'};color:${i===0?'#92400e':'var(--text3)'};font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">${i+1}</span>
+          <div style="font-size:10px;color:var(--text2);line-height:1.5;padding:3px 7px;background:var(--surface2);border-radius:4px;flex:1;border-left:2px solid ${i===0?'var(--accent3)':'var(--border2)'}">${e}</div>
+        </div>`).join('')}
+      </div>
+      <div class="formula-avg" style="margin-top:6px">效果参考：<strong>${f.avg}</strong></div>
     </div>`).join('');
   };
   renderGrid('title-formulas',titleFormulas);
@@ -1093,23 +1128,43 @@ function renderFormulas(){
 // ─── SCHEDULE ────────────────────────────────────────────────────────────────
 function renderSchedule(){
   const items = [
-    {date:'本周',title:'建档系列：留学生回国这4步，90%的家长第一步就做错了',tags:['最高优先','引流型','建档系列#1'],level:'urgent',person:'建议Una'},
-    {date:'本周',title:'LSE/英国方向：女儿在G5读书，我整理了一份让她少走弯路的求职清单',tags:['英澳补仓','双高型','家长视角'],level:'urgent',person:'建议Swennie'},
-    {date:'本周',title:'在华欧企系列：留学生别再只盯大厂，这条赛道年薪50万准点下班',tags:['高优先','引流型','欧企系列'],level:'high',person:'建议Yulia'},
-    {date:'下周',title:'国际组织新方向：世界数据组织北京成立，留学生家门口拿世界编制',tags:['高优先','传播型','国际组织'],level:'high',person:'建议Linnea'},
-    {date:'下周',title:'凌晨官宣系列：[待时效信息] 跟进最新政策动态出稿',tags:['时效内容','传播型','随时待命'],level:'mid',person:'全员'},
-    {date:'下周',title:'家长故事：250万留学投入，买的不是文凭，是孩子兜住自己的底气',tags:['双高型','家长共鸣','引流群'],level:'mid',person:'建议Jaden'},
+    {priority:'🔴 最高优先',level:'urgent',topic:'建档/学历认证',
+     reason:'历史最强爆款方向（48万播放），供给不足，家长焦虑触点极强',
+     titles:['留学生回国第一件事就做错了，学历认证和建档根本不是一回事','90%的家长把建档和认证混为一谈，孩子上岸机会就这样丢了','凌晨提醒：留学生回国必须做的两件事，顺序错了就全废了']},
+    {priority:'🔴 最高优先',level:'urgent',topic:'英国/LSE方向',
+     reason:'历史咨询转化率第一（LSE家长单条30+咨询），此方向内容严重不足',
+     titles:['女儿在LSE读大二，已经拿到投行暑期实习offer，我们做对了什么','英国商会驻北京内部申请入口又开了，英国留学生速看','花150万送孩子去英国读一年硕士，现在后悔了吗']},
+    {priority:'🟠 高优先',level:'high',topic:'在美中资大厂',
+     reason:'美国方向核心爆款（字节21万播），持续高转发，可做系列内容',
+     titles:['建议美国留学生都去投在美中资大厂，年薪直飙45万美元普通话流利直接进','字节跳动北美大量缺人，周受资喊话：普通话就是你最大的竞争力','阿里美区软件工程师年薪20万美元，竞争比谷歌小太多了']},
+    {priority:'🟠 高优先',level:'high',topic:'家长情感/故事',
+     reason:'转发天花板（42000转发），完播率最高，引流私域最有效的内容类型',
+     titles:['留学生的家庭都有一个开朗的妈妈','那250万买的不是那张文凭，而是给她的人生托个底','送孩子去万里之外的大学，最难的不是钱，是这件事']},
+    {priority:'🟡 常规',level:'mid',topic:'凌晨官宣/时效内容',
+     reason:'已验证最强标题公式，播放量高35%，跟进最新政策动态立即出稿',
+     titles:['[权威机构]凌晨官宣：缺留学生（跟进最新信源）','刚刚！[城市/机构]官宣[利好政策]，留学生这次真的太吃香了','深夜通知：[企业/机构]点名要QS前100留学生']},
+    {priority:'🟡 常规',level:'mid',topic:'求职平台/工具',
+     reason:'信息差型内容长期有效，收藏率高，单条带来稳定咨询',
+     titles:['别傻刷招聘软件，这个方法秒拿铁饭碗——国务院客户端求职登记','留学生求职必存15个高薪通道，体制内央国企官方平台全在这','国家级留学生线上招聘会：不回国也能面试，QS前200优先']},
   ];
   const el = document.getElementById('schedule-list');
   if(!el)return;
-  el.innerHTML = items.map(s=>`<div class="sched ${s.level}">
-    <div class="sched-date">${s.date}</div>
-    <div class="sched-info">
-      <div class="sched-title">${s.title}</div>
-      <div class="sched-tags">${s.tags.map(t=>`<span class="sched-tag ${t.includes('优先')||t.includes('补仓')?'r':t.includes('高优先')?'o':t.includes('型')?'b':'g'}">${t}</span>`).join('')}</div>
-    </div>
-    <div class="sched-person">${s.person}</div>
-  </div>`).join('');
+  const borderColor = {urgent:'#ef4444',high:'var(--accent3)',mid:'var(--accent2)'};
+  el.innerHTML = items.map(s=>`
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;border-left:3px solid ${borderColor[s.level]}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:700">${s.priority}</span>
+        <span style="font-size:11px;padding:2px 8px;border-radius:4px;background:var(--surface2);color:var(--text2);font-weight:500">${s.topic}</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px;padding:6px 8px;background:var(--surface2);border-radius:5px">
+        💡 ${s.reason}
+      </div>
+      <div style="font-size:10px;color:var(--text3);font-weight:600;margin-bottom:6px;letter-spacing:.3px">参考标题（三组）</div>
+      ${s.titles.map((t,i)=>`<div style="display:flex;gap:7px;margin-bottom:5px;align-items:flex-start">
+        <span style="width:16px;height:16px;border-radius:4px;background:${i===0?'var(--accent3)':i===1?'rgba(124,58,237,.15)':'var(--surface2)'};color:${i===0?'#92400e':'var(--text3)'};font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">${i+1}</span>
+        <div style="font-size:11px;color:var(--text);line-height:1.5;padding:4px 8px;background:var(--surface2);border-radius:5px;flex:1;border-left:2px solid ${i===0?'var(--accent3)':'var(--border2)'}">${t}</div>
+      </div>`).join('')}
+    </div>`).join('');
 }
 
 // ─── HISTORY TABLE ───────────────────────────────────────────────────────────
@@ -1125,20 +1180,20 @@ function renderHistory(regionFilter){
   if(!tbody)return;
   tbody.innerHTML = data.map(d=>{
     const rc = regionTag(d.region).split(' ');
-    const isHigh = (d.consult>=5||d.fans>=20);
+    const isHigh = ((d.consult||0)>=5||(d.fans||0)>=20);
     return`<tr>
-      <td class="mono" style="color:var(--text3)">${d.date}</td>
-      <td>${d.topic}</td>
+      <td class="mono" style="color:var(--text3);white-space:nowrap;font-size:10px">${d.date}</td>
+      <td style="color:var(--text2);font-size:10px">${d.topic||'—'}</td>
       <td><span class="tag ${rc[0]}">${rc[1]}</span></td>
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${isHigh?'<span class="viral-dot"></span>':''}${d.title}</td>
-      <td class="mono">${fmt(d.play)}</td>
-      <td class="mono" style="color:${d.fans>=20?'var(--accent)':'var(--text)'}">${d.fans||0}</td>
-      <td class="mono" style="color:${d.consult>=5?'var(--accent3)':'var(--text)'}">${d.consult||0}</td>
-      <td class="mono">${fmt(d.shares)}</td>
-      <td class="mono" style="color:${d.finish>=30?'var(--accent)':d.finish>=20?'var(--text2)':'var(--text3)'}">${d.finish}%</td>
-      <td><span class="${typeClass(d.type)}">${d.type}</span></td>
-    </tr>`
-  }).join('');
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:var(--text2)">${d.account||'—'}</td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${isHigh?'<span class="viral-dot"></span>':''}${d.title}</td>
+      <td class="mono" style="color:${(d.shares||0)>=1000?'var(--accent3)':'var(--text)'}">${fmt(d.shares)}</td>
+      <td class="mono">${d.comments||0}</td>
+      <td class="mono" style="color:${(d.fans||0)>=20?'var(--accent)':'var(--text)'}">${d.fans||0}</td>
+      <td class="mono" style="color:${(d.consult||0)>=5?'var(--accent3)':'var(--text)'}">${d.consult||0}</td>
+      <td><span class="${typeClass(d.type)}">${d.type||'—'}</span></td>
+    </tr>\`
+  }).join('');;
 }
 
 // ─── ENTRY FORM ──────────────────────────────────────────────────────────────
@@ -1217,6 +1272,8 @@ async function submitEntry(){
       if(document.getElementById('e-viral-hint')) document.getElementById('e-viral-hint').style.display='none';
       const msg=document.getElementById('e-success');
       if(msg){msg.style.display='block'; setTimeout(()=>msg.style.display='none',4000);}
+      // Generate new idea based on this entry
+      generateIdeaFromEntry(record);
       initEntry();
       renderDashboard();
     } else {
@@ -1771,6 +1828,104 @@ ${script.slice(0,800)}`
   } finally {
     if(btn) { btn.textContent = '✦ AI提炼开头钩子和CTA'; btn.disabled = false; }
   }
+}
+
+function toggleScript(id) {
+  const el = document.getElementById(id);
+  const btn = el?.previousElementSibling;
+  if(!el) return;
+  const showing = el.style.display !== 'none';
+  el.style.display = showing ? 'none' : 'block';
+  if(btn) btn.textContent = showing ? '▶ 展开全文稿' : '▲ 收起';
+}
+
+
+// ─── POST-ENTRY IDEA GENERATOR ───────────────────────────────────────────────
+async function generateIdeaFromEntry(record) {
+  // Only generate for external entries with enough info
+  if(!record.title || record.title.length < 5) return;
+
+  try {
+    const context = `你是一个资深新媒体运营，专门做留学生求职方向的视频号账号，面向留学生家长。
+账号定位：美国70%/英国20%/其他10%，内容以引流咨询为目的，每条视频结尾设评论区暗号引流。
+
+以下是一条刚采集到的爆款竞品视频：
+标题：${record.title}
+方向：${record.topic||''}
+地区：${record.region||''}
+开头钩子：${record.hook||''}
+转发量：${record.shares||0}
+
+基于这条爆款，用"加减乘除"方法给出3个我们账号可以直接用的选题灵感。
+每个选题包含：
+1. 选题方向（一句话）
+2. 参考标题（2组，越像官方发布越好，有"活人感"）
+3. 信源（真实可查的网址）
+4. 操作方法（加法/减法/乘法/除法中的一种，一句话说明怎么改编）
+
+输出JSON格式：
+{"ideas":[{"direction":"","titles":["",""],"source":"","source_url":"","method":""},...]
+}`;
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:context}]
+      })
+    });
+    const data = await resp.json();
+    const text = data?.content?.[0]?.text||'';
+    const clean = text.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(clean);
+
+    if(result.ideas && result.ideas.length > 0) {
+      showIdeaToast(result.ideas, record.title);
+    }
+  } catch(e) {
+    console.log('Idea gen error:', e.message);
+  }
+}
+
+function showIdeaToast(ideas, sourceTitle) {
+  // Remove existing toast
+  const old = document.getElementById('idea-toast');
+  if(old) old.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'idea-toast';
+  toast.style.cssText = `position:fixed;bottom:24px;right:24px;width:380px;background:var(--surface);border:1px solid rgba(124,58,237,.3);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:9999;overflow:hidden;animation:slideUp .3s ease`;
+
+  const ideasHtml = ideas.map((idea,i)=>`
+    <div style="padding:10px 14px;${i<ideas.length-1?'border-bottom:1px solid var(--border)':''}">
+      <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:4px">${idea.direction}</div>
+      ${idea.titles.map(t=>`<div style="font-size:10px;color:var(--text2);padding:3px 6px;background:var(--surface2);border-radius:4px;margin-bottom:3px;border-left:2px solid var(--accent)">${t}</div>`).join('')}
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
+        <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:rgba(124,58,237,.1);color:var(--accent)">${idea.method}</span>
+        <a href="${idea.source_url||'#'}" target="_blank" style="font-size:9px;color:var(--accent2);text-decoration:none">${idea.source} ↗</a>
+      </div>
+    </div>`).join('');
+
+  toast.innerHTML = `
+    <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(245,200,66,.04))">
+      <div>
+        <div style="font-size:12px;font-weight:700">✦ AI生成选题灵感</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:1px">基于：${sourceTitle.slice(0,25)}…</div>
+      </div>
+      <button onclick="document.getElementById('idea-toast').remove()" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:0">×</button>
+    </div>
+    ${ideasHtml}
+    <div style="padding:8px 14px;background:var(--surface2);display:flex;gap:8px">
+      <button onclick="showPage('ideas');document.getElementById('idea-toast').remove()" style="flex:1;padding:6px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:inherit">查看全部灵感库</button>
+      <button onclick="document.getElementById('idea-toast').remove()" style="padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer;border:none;background:var(--accent);color:#fff;font-family:inherit">知道了</button>
+    </div>`;
+
+  document.body.appendChild(toast);
+
+  // Auto dismiss after 20 seconds
+  setTimeout(()=>{ const t=document.getElementById('idea-toast'); if(t) t.remove(); }, 20000);
 }
 
 // ─── HISTORY TABS ────────────────────────────────────────────────────────────
