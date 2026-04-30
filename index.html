@@ -997,7 +997,7 @@ function renderTopList(sort){
         <span onclick="toggleScript('${sid}')" style="cursor:pointer;font-size:10px;color:var(--accent2);font-weight:500">▶ 展开全文稿</span>
         <div id="${sid}" style="display:none;margin-top:6px;font-size:11px;color:var(--text2);line-height:1.8;background:var(--surface2);padding:10px 12px;border-radius:6px;max-height:180px;overflow-y:auto;white-space:pre-wrap;border-left:2px solid var(--border2)">${d.script}</div>
       </div>`:''}
-    </div>\`
+    </div>`
   }).join('');
 }
 
@@ -1192,8 +1192,8 @@ function renderHistory(regionFilter){
       <td class="mono" style="color:${(d.fans||0)>=20?'var(--accent)':'var(--text)'}">${d.fans||0}</td>
       <td class="mono" style="color:${(d.consult||0)>=5?'var(--accent3)':'var(--text)'}">${d.consult||0}</td>
       <td><span class="${typeClass(d.type)}">${d.type||'—'}</span></td>
-    </tr>\`
-  }).join('');;
+    </tr>`
+  }).join('');
 }
 
 // ─── ENTRY FORM ──────────────────────────────────────────────────────────────
